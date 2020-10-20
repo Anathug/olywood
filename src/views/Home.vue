@@ -24,6 +24,7 @@ export default {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
     this.scene.createMesh(0);
+    this.scene.createMesh(3);
     const svgUp = document.querySelector(".svg-up");
     const svgDown = document.querySelector(".svg-down");
     const bolyIn = gsap
@@ -41,21 +42,20 @@ export default {
       bolyIn.play();
       this.scene.slideCameraRight({
         onStart: () => {
-          this.scene.createMesh(3);
+         this.scene.scene.children[1].visible = true;
         },
         onComplete: () => {
-         this.scene.scene.remove(this.scene.scene.children[0])
+         this.scene.scene.children[0].visible = false;
         },
       });
     });
     svgDown.addEventListener("click", () => {
         this.scene.slideCameraLeft({
         onStart: () => {
-          this.scene.createMesh(0);
-          console.log('test')
+            this.scene.scene.children[0].visible = true;
         },
         onComplete: () => {
-         this.scene.scene.remove(this.scene.scene.children[0])
+            this.scene.scene.children[1].visible = false;
         },
       });
       bolyIn.reverse();

@@ -14,9 +14,9 @@ class ThreeScene {
         this.scene = null;
         this.renderer = null;
         this.clock = null;
-        this.geometry = null;
         this.speed = null;
         this.targetSpeed = null;
+        this.meshes = [];
         this.mouse = new THREE.Vector2();
         this.prevMouse = new THREE.Vector2();
         this.middleScreenW = window.innerWidth / 2;
@@ -76,12 +76,12 @@ class ThreeScene {
         this.targetSpeed += 0.1 * (this.speed - this.targetSpeed);
     }
     createMesh(posX) {
-        this.geometry = new THREE.PlaneGeometry(0.7, 0.5, 32, 32);
-        let manager = new THREE.LoadingManager();
-        let textureLoader = new THREE.TextureLoader(manager);
-        let texture = textureLoader.load(holywoodImg);
+        const geometry = new THREE.PlaneGeometry(0.7, 0.5, 32, 32);
+        const manager = new THREE.LoadingManager();
+        const textureLoader = new THREE.TextureLoader(manager);
+        const texture = textureLoader.load(holywoodImg);
 
-        this.material = new THREE.ShaderMaterial({
+        const material = new THREE.ShaderMaterial({
             vertexShader,
             fragmentShader,
             uniforms: {
@@ -93,15 +93,17 @@ class ThreeScene {
                 speed: { value: this.targetSpeed },
             },
         });
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        this.mesh.position.x = posX;
-        this.scene.add(this.mesh);
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.x = posX;
+        this.meshes.push(mesh);
+        this.scene.add(mesh);
+        console.log(this.meshes)
     }
     render() {
-        if (this.material) {
-            this.material.uniforms.speed.value = this.targetSpeed;
-            this.material.uniforms.uTime.value += 0.01;
-        }
+        this.meshes.forEach((mesh) => {
+            mesh.material.uniforms.speed.value = this.targetSpeed
+            mesh.material.uniforms.uTime.value += 0.01;
+        })
         this.getSpeed();
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);
