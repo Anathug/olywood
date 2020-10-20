@@ -1,31 +1,47 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="app__wrapper">
+      <NavLayout />
+      <router-view />
     </div>
-    <router-view/>
   </div>
 </template>
 
 <script>
-
+import NavLayout from "@/components/NavLayout.vue";
 export default {
   name: "App",
   components: {
+    NavLayout,
   },
-  mounted() {
-
-  },
+  mounted() {},
 };
-
 </script>
 
 <style lang="scss">
-html, body {
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+html,
+body {
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+  background-color: #161920;
+  color: white;
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
 }
 
+canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.app__wrapper {
+  padding: 7vh;
+  position: relative;
+  z-index: 2;
+}
 </style>

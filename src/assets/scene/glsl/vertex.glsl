@@ -1,8 +1,10 @@
 precision highp float;
 
 varying vec2 vUv;
+varying vec4 vPosition;
 varying float vWave;
 uniform float uTime;
+uniform float progress;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -107,14 +109,22 @@ float snoise(vec3 v) {
 }
 
 void main() {
-  vUv = uv;
 
   vec3 pos = position;
+  float distance = length(uv - vec2(0.5));
+  float maxdist = length(vec2(0.5));
+
+  float normalizedDistance = distance/maxdist;
+
+  float stickTo = normalizedDistance;
+
   float noiseFreq = 2.5;
   float noiseAmp = 0.05; 
   vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
-  pos.z += snoise(noisePos) * noiseAmp;
+  pos.z += snoise(noisePos) * noiseAmp + stickTo * progress;
   vWave = pos.z;
+  
+  vUv = uv;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
 }

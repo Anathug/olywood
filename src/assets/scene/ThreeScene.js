@@ -2,7 +2,6 @@ import * as THREE from "three";
 import gsap from "gsap";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import holywoodImg from "../img/holywood.jpg";
-const createInputEvents = require("simple-input-events");
 
 const vertexShaderRaw = require("raw-loader!glslify-loader!./glsl/vertex.glsl");
 const fragmentShaderRaw = require("raw-loader!glslify-loader!./glsl/fragment.glsl");
@@ -27,7 +26,7 @@ class ThreeScene {
         this.init = this.init.bind(this);
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
-        this.slideCamera = this.slideCamera.bind(this);
+        this.slideCameraRight = this.slideCameraRight.bind(this);
 
         this.init();
         this.render();
@@ -49,18 +48,21 @@ class ThreeScene {
             100
         );
 
-        this.camera.position.set(0, -0.1, 1);
+        this.camera.position.set(0, 0, 1);
         gsap.ticker.add(this.render);
         window.addEventListener("resize", this.resizeCanvas);
         window.addEventListener("mousemove", (e) => {
             this.onMouseMove(e);
         });
+        window.addEventListener("click", () => {
+            this.isMouseOver();
+        });
     }
 
     onMouseMove(e) {
         gsap.to(this.mouse, 0.5, {
-            x: (e.clientX / window.innerWidth),
-            y: 1. - (e.clientY / window.innerHeight)
+            x: e.clientX / window.innerWidth,
+            y: 1 - e.clientY / window.innerHeight,
         });
     }
 
@@ -73,7 +75,7 @@ class ThreeScene {
         this.prevMouse.y = this.mouse.y;
         this.targetSpeed += 0.1 * (this.speed - this.targetSpeed);
     }
-    createMesh() {
+    createMesh(posX) {
         this.geometry = new THREE.PlaneGeometry(0.7, 0.5, 32, 32);
         let manager = new THREE.LoadingManager();
         let textureLoader = new THREE.TextureLoader(manager);
@@ -84,12 +86,15 @@ class ThreeScene {
             fragmentShader,
             uniforms: {
                 uTime: { value: 0.0 },
+                progress: { value: 0 },
                 uTexture: { value: texture },
+                resolution: { value: new THREE.Vector4() },
                 uMouse: { value: this.mouse },
                 speed: { value: this.targetSpeed },
             },
         });
         this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.position.x = posX;
         this.scene.add(this.mesh);
     }
     render() {
@@ -107,12 +112,37 @@ class ThreeScene {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
     }
-    slideCamera() {
+    slideCameraRight(options = {}) {
         gsap.to(this.camera.position, {
-            x: "+=" + 1.2,
-            duration: 1,
-            ease: "power4.inOut"
+            x: 3,
+            duration: 2,
+            ease: "power4.inOut",
+            ...options
         });
+    }
+    slideCameraLeft(options = {}) {
+        gsap.to(this.camera.position, {
+            x: 0,
+            duration: 2,
+            ease: "power4.inOut",
+            ...options
+        });
+    }
+    isMouseOver() {
+        const mouse = new THREE.Vector2();
+        mouse.x = this.mouse.x * 2 - 1;
+        mouse.y = this.mouse.y * 2 - 1;
+        var raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, this.camera);
+
+        var intersects = raycaster.intersectObjects(this.scene.children);
+        for (var i = 0; i < intersects.length; i++) {
+            gsap.to(this.material.uniforms.progress, {
+                value: 1,
+                duration: 1,
+                ease: "power4.inOut",
+            });
+        }
     }
 }
 
