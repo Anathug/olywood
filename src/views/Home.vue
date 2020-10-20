@@ -1,18 +1,25 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ShaderImage />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ShaderImage from '@/components/ShaderImage.vue'
+import Bridge from "@/assets/scene/Bridge";
 
 export default {
   name: 'Home',
+  mounted() {
+   this.bridge = new Bridge();
+    this.scene = this.bridge.getSingleton();
+    console.log(this.scene)
+    window.addEventListener('click', () => {
+        this.scene.slideCamera();
+    })
+  },
   components: {
-    HelloWorld
-  }
+    ShaderImage
+  },
 }
 </script>
