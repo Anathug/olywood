@@ -18,6 +18,7 @@ class ThreeScene {
         this.targetSpeed = null;
         this.meshes = [];
         this.imgLoaded = false;
+        this.points = null;
         this.mouse = new THREE.Vector2();
         this.prevMouse = new THREE.Vector2();
         this.middleScreenW = window.innerWidth / 2;
@@ -113,6 +114,7 @@ class ThreeScene {
         this.meshes.push(mesh);
         this.scene.add(mesh);
     }
+
     render() {
         this.meshes.forEach((mesh) => {
             mesh.material.uniforms.speed.value = this.targetSpeed
@@ -150,7 +152,6 @@ class ThreeScene {
 
         var intersects = raycaster.intersectObjects(this.scene.children);
         for (var i = 0; i < intersects.length; i++) {
-            console.log('test')
             gsap.to(intersects[0].object.material.uniforms.progress, {
                 value: 1,
                 duration: 1,
@@ -162,12 +163,6 @@ class ThreeScene {
                 delay: .3,
                 ease: "power4.inOut",
             });
-            gsap.to(document.querySelector('.page-bg'), {
-                scaleY: 1,
-                duration: 1,
-                ease: "power4.inOut",
-                delay: 1
-            })
         }
     }
 }

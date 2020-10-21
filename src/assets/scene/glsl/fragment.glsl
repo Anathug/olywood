@@ -20,7 +20,7 @@ void main() {
 	vec2 res = uRes;
 	vec2 st = gl_FragCoord.xy / res.xy - vec2(0.5);
 	st.y *= uRes.y /uRes.x;
-    float normSpeed = clamp(speed * 10. ,0. ,1.); 
+    float normSpeed = clamp(speed * 20. ,0. ,1.); 
 
 	vec2 mouse = uMouse * -0.5;
 	

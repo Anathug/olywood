@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <CustomCursor />
-    <Loader />
+    <!-- <Loader /> -->
     <PageBG />
     <div class="app__wrapper">
       <NavLayout />

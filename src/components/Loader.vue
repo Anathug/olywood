@@ -15,9 +15,7 @@ export default {
     this.ressources.forEach((el) => {
       const image = document.createElement("img");
       image.src = holywoodImg;
-      image.addEventListener("load", () => {
-        console.log("loaded");
-      });
+      image.addEventListener("load", () => {});
     });
   },
 };
