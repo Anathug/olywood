@@ -29,7 +29,6 @@ void main() {
   vec3 texture = vec3(r1, g1 ,b1);
 //   vec4 color = texture2D(uTexture, vUv);
 
-
     // gl_FragColor = color;
     // gl_FragColor = vec4(1.,0.,0.,1.);
   gl_FragColor = vec4(texture, 1.);

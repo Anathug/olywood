@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <CustomCursor />
     <div class="app__wrapper">
       <NavLayout />
       <router-view />
@@ -9,17 +10,20 @@
 
 <script>
 import NavLayout from "@/components/NavLayout.vue";
+import CustomCursor from "@/components/CustomCursor.vue";
+
 export default {
   name: "App",
   components: {
     NavLayout,
+    CustomCursor,
   },
   mounted() {},
 };
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
 html,
 body {
   width: 100vw;
@@ -29,7 +33,8 @@ body {
   color: white;
   padding: 0;
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
+//   cursor: none;
 }
 
 canvas {

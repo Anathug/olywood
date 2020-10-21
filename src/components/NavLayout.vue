@@ -1,12 +1,12 @@
 <template>
   <div class="nav-layout">
     <div class="nav-layout__left-wrapper">
-      <router-link to="/">Ollywood</router-link>
+      <router-link class="cursor-over" to="/">Ollywood</router-link>
       <div class="nav-layout__left-wrapper__arrow-wrapper">
-        <img ref="svgUp" class="svg-up" src="../assets/svg/arrow.svg" alt="" />
+        <img ref="svgUp" class="svg-up cursor-over" src="../assets/svg/arrow.svg" alt="" />
         <img
           ref="svgDown"
-          class="svg-down"
+          class="svg-down cursor-over"
           src="../assets/svg/arrow.svg"
           alt=""
         />
@@ -27,7 +27,9 @@
         <BurgerMenu />
       </router-link>
       <div class="nav-layout__right-wrapper__indicator">
-        <div class="first-number">1</div>
+        <div class="first-number-wrapper">
+          <div class="first-number">1</div>
+        </div>
         <div class="line"></div>
         <div class="second-number">2</div>
       </div>
@@ -43,7 +45,6 @@ export default {
   components: {
     BurgerMenu,
   },
-
 };
 </script>
 
@@ -53,6 +54,7 @@ export default {
   display: flex;
   justify-content: space-between;
   position: relative;
+  z-index: 12;
 
   &__left-wrapper,
   &__right-wrapper {
@@ -72,7 +74,8 @@ export default {
       align-self: center;
       .svg-up,
       .svg-down {
-        cursor: pointer;
+          cursor: none;
+
       }
       .svg-down {
         transform: rotate(180deg);
@@ -92,8 +95,19 @@ export default {
         background-color: white;
         padding: 10 10px;
       }
-      .first-number {
+      .first-number-wrapper {
         padding-right: 20px;
+        position: relative;
+        overflow: hidden;
+        .first-number {
+          transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+          &:after {
+            content: "2";
+            position: absolute;
+            top: 100%;
+            left: 0;
+          }
+        }
       }
       .second-number {
         padding-left: 20px;
@@ -105,5 +119,8 @@ export default {
 a {
   color: white;
   text-decoration: none;
+  position: relative;
+  padding: 5px;
+//   z-index: 10;
 }
 </style>

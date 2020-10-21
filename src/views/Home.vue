@@ -25,6 +25,8 @@ export default {
     this.scene = this.bridge.getSingleton();
     this.scene.createMesh(0);
     this.scene.createMesh(3);
+    this.currentIndex = 0;
+    const firstNumber = document.querySelector('.first-number')
     const svgUp = document.querySelector(".svg-up");
     const svgDown = document.querySelector(".svg-down");
     const bolyIn = gsap
@@ -39,28 +41,41 @@ export default {
       .pause();
 
     svgUp.addEventListener("click", () => {
-      bolyIn.play();
-      this.scene.slideCameraRight({
-        onStart: () => {
-         this.scene.scene.children[1].visible = true;
-        },
-        onComplete: () => {
-         this.scene.scene.children[0].visible = false;
-        },
-      });
+        console.log('test')
+      if (this.currentIndex === 0) {
+        bolyIn.play();
+        this.scene.slideCameraRight({
+          onStart: () => {
+            this.scene.scene.children[1].visible = true;
+          },
+          onComplete: () => {
+            this.scene.scene.children[0].visible = false;
+          },
+        });
+        document.querySelector('.first-number')
+        this.currentIndex = 1;
+        firstNumber.style.transform = "translateY(-100%)"
+      }
     });
     svgDown.addEventListener("click", () => {
+      if (this.currentIndex === 1) {
+        bolyIn.reverse();
         this.scene.slideCameraLeft({
-        onStart: () => {
+          onStart: () => {
             this.scene.scene.children[0].visible = true;
-        },
-        onComplete: () => {
+          },
+          onComplete: () => {
             this.scene.scene.children[1].visible = false;
-        },
-      });
-      bolyIn.reverse();
+          },
+        });
+        firstNumber.style.transform = "translateY(0)"
+      }
+      this.currentIndex = 0;
     });
   },
+  methods: {
+
+  }
 };
 </script>
 

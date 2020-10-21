@@ -139,7 +139,7 @@ class ThreeScene {
 
         var intersects = raycaster.intersectObjects(this.scene.children);
         for (var i = 0; i < intersects.length; i++) {
-            gsap.to(this.material.uniforms.progress, {
+            gsap.to(intersects[0].object.material.uniforms.progress, {
                 value: 1,
                 duration: 1,
                 ease: "power4.inOut",
