@@ -17,6 +17,7 @@ class ThreeScene {
         this.speed = null;
         this.targetSpeed = null;
         this.meshes = [];
+        this.imgLoaded = false;
         this.mouse = new THREE.Vector2();
         this.prevMouse = new THREE.Vector2();
         this.middleScreenW = window.innerWidth / 2;
@@ -61,8 +62,10 @@ class ThreeScene {
 
     onMouseMove(e) {
         gsap.to(this.mouse, 0.5, {
-            x: e.clientX / window.innerWidth,
-            y: 1 - e.clientY / window.innerHeight,
+            // x: e.clientX / window.innerWidth,
+            // y: 1 - e.clientY / window.innerHeight,
+            x: (event.clientX / window.innerWidth) * 2 - 1,
+            y: -(event.clientY / window.innerHeight) * 2 + 1,
         });
     }
 
@@ -77,27 +80,38 @@ class ThreeScene {
     }
     createMesh(posX) {
         const geometry = new THREE.PlaneGeometry(0.7, 0.5, 32, 32);
-        const manager = new THREE.LoadingManager();
-        const textureLoader = new THREE.TextureLoader(manager);
-        const texture = textureLoader.load(holywoodImg);
-
+        const textureLoader = new THREE.TextureLoader();
         const material = new THREE.ShaderMaterial({
             vertexShader,
             fragmentShader,
             uniforms: {
                 uTime: { value: 0.0 },
                 progress: { value: 0 },
-                uTexture: { value: texture },
-                resolution: { value: new THREE.Vector4() },
+                uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+                PR: { value: window.devicePixelRatio.toFixed(1) },
+                uTexture: { value: null },
                 uMouse: { value: this.mouse },
                 speed: { value: this.targetSpeed },
             },
         });
+
+        textureLoader.load(
+            holywoodImg,
+            (texture) => {
+                this.imgLoaded = true
+                material.uniforms.uTexture.value = texture
+            },
+            undefined,
+            (err) => {
+                console.error('An error happened.');
+            }
+        );
+
+
         const mesh = new THREE.Mesh(geometry, material);
         mesh.position.x = posX;
         this.meshes.push(mesh);
         this.scene.add(mesh);
-        console.log(this.meshes)
     }
     render() {
         this.meshes.forEach((mesh) => {
@@ -131,19 +145,29 @@ class ThreeScene {
         });
     }
     isMouseOver() {
-        const mouse = new THREE.Vector2();
-        mouse.x = this.mouse.x * 2 - 1;
-        mouse.y = this.mouse.y * 2 - 1;
         var raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, this.camera);
+        raycaster.setFromCamera(this.mouse, this.camera);
 
         var intersects = raycaster.intersectObjects(this.scene.children);
         for (var i = 0; i < intersects.length; i++) {
+            console.log('test')
             gsap.to(intersects[0].object.material.uniforms.progress, {
                 value: 1,
                 duration: 1,
                 ease: "power4.inOut",
             });
+            gsap.to(this.camera.position, {
+                x: -3,
+                duration: 1,
+                delay: .3,
+                ease: "power4.inOut",
+            });
+            gsap.to(document.querySelector('.page-bg'), {
+                scaleY: 1,
+                duration: 1,
+                ease: "power4.inOut",
+                delay: 1
+            })
         }
     }
 }

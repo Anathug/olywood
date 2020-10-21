@@ -1,0 +1,28 @@
+<template>
+<div class="page-bg">
+
+</div>
+</template>
+
+<script>
+import gsap from "gsap";
+export default {
+  name: "PageBG",
+  mounted() {
+
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.page-bg {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(#BF6989, #E280A4);
+    transform: scaleY(0);
+}
+
+</style>

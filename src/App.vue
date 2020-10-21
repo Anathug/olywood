@@ -1,22 +1,30 @@
 <template>
   <div id="app">
     <CustomCursor />
+    <Loader />
+    <PageBG />
     <div class="app__wrapper">
       <NavLayout />
-      <router-view />
+      <transition name="router-anim" mode="out-in">
+        <router-view class="router-view" />
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
 import NavLayout from "@/components/NavLayout.vue";
+import Loader from "@/components/Loader.vue";
 import CustomCursor from "@/components/CustomCursor.vue";
+import PageBG from "@/components/PageBG.vue";
 
 export default {
   name: "App",
   components: {
     NavLayout,
     CustomCursor,
+    Loader,
+    PageBG,
   },
   mounted() {},
 };
@@ -34,7 +42,14 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Lato", sans-serif;
-//   cursor: none;
+  cursor: none;
+  a {
+    cursor: none;
+  }
+}
+
+.router-view {
+  transition-duration: 1.5s;
 }
 
 canvas {

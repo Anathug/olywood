@@ -5,6 +5,7 @@ varying vec4 vPosition;
 varying float vWave;
 uniform float uTime;
 uniform float progress;
+uniform vec2 uMouse;
 
 //
 // Description : Array and textureless GLSL 2D/3D/4D simplex
@@ -120,8 +121,9 @@ void main() {
 
   float noiseFreq = 2.5;
   float noiseAmp = 0.05; 
-  vec3 noisePos = vec3(pos.x * noiseFreq + uTime, pos.y, pos.z);
-  pos.z += snoise(noisePos) * noiseAmp + stickTo * progress;
+  vec3 noisePos = vec3(pos.x * noiseFreq + uTime  , pos.y  , pos.z);
+
+  pos.z += (snoise(noisePos) * noiseAmp +  - stickTo * progress);
   vWave = pos.z;
   
   vUv = uv;

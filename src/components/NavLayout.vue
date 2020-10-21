@@ -3,7 +3,12 @@
     <div class="nav-layout__left-wrapper">
       <router-link class="cursor-over" to="/">Ollywood</router-link>
       <div class="nav-layout__left-wrapper__arrow-wrapper">
-        <img ref="svgUp" class="svg-up cursor-over" src="../assets/svg/arrow.svg" alt="" />
+        <img
+          ref="svgUp"
+          class="svg-up cursor-over"
+          src="../assets/svg/arrow.svg"
+          alt=""
+        />
         <img
           ref="svgDown"
           class="svg-down cursor-over"
@@ -31,7 +36,9 @@
           <div class="first-number">1</div>
         </div>
         <div class="line"></div>
-        <div class="second-number">2</div>
+        <div class="second-number-wrapper">
+          <div class="second-number">2</div>
+        </div>
       </div>
     </div>
   </div>
@@ -72,15 +79,18 @@ export default {
       align-items: flex-start;
       justify-content: center;
       align-self: center;
+      overflow: hidden;
       .svg-up,
       .svg-down {
-          cursor: none;
-
+        cursor: none;
       }
       .svg-down {
         transform: rotate(180deg);
         margin-top: 150px;
       }
+    }
+    svg {
+      overflow: hidden;
     }
   }
 
@@ -109,8 +119,19 @@ export default {
           }
         }
       }
-      .second-number {
+      .second-number-wrapper {
         padding-left: 20px;
+        position: relative;
+        overflow: hidden;
+        .second-number {
+          transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+          &:after {
+            content: "5";
+            position: absolute;
+            top: 100%;
+            left: 0;
+          }
+        }
       }
     }
   }
@@ -121,6 +142,6 @@ a {
   text-decoration: none;
   position: relative;
   padding: 5px;
-//   z-index: 10;
+  //   z-index: 10;
 }
 </style>

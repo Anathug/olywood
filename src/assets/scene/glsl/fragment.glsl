@@ -2,35 +2,37 @@ precision highp float;
 
 varying vec2 vUv;
 varying float vWave;
-varying vec4 resolution;
+uniform vec2 uRes;
 varying vec4 vPosition;
 uniform float uTime;
 uniform float progress;
 uniform sampler2D uTexture;
 uniform vec2 uMouse;
-uniform vec2 rez;
 uniform float speed;
 
 
+float circle(in vec2 _st, in float _radius, in float blurriness){
+    vec2 dist = _st;
+    return 1.-smoothstep(_radius-(_radius*blurriness), _radius+(_radius*blurriness), dot(dist,dist)*4.0);
+}
+
 void main() {
+	vec2 res = uRes;
+	vec2 st = gl_FragCoord.xy / res.xy - vec2(0.5);
+	st.y *= uRes.y /uRes.x;
+    float normSpeed = clamp(speed * 10. ,0. ,1.); 
 
-  float mouseDist = length(vUv - uMouse);
-  float normSpeed = clamp(speed * 20. ,0. ,1.);
+	vec2 mouse = uMouse * -0.5;
+	
+	vec2 circlePos = st + mouse;
+	float c = circle(circlePos, .01, 2.);
 
-  float c = smoothstep(.2, 0., mouseDist);
-  float r1 = texture2D(uTexture, vUv + .5  * normSpeed * c).r;
-  float g1 = texture2D(uTexture, vUv + .3  *normSpeed *  c).g;
-  float b1 = texture2D(uTexture, vUv + .1  * normSpeed *c).b;
+    float r1 = texture2D(uTexture, vUv + .3  * normSpeed * c / 4.).r;
+  float g1 = texture2D(uTexture, vUv + .2  *normSpeed *  c / 4.).g;
+  float b1 = texture2D(uTexture, vUv + .1  * normSpeed *c / 4.).b;
 
-//   float wave = vWave * 0.25;
-//   float r = texture2D(uTexture, vUv + wave / 3.).r;
-//   float g = texture2D(uTexture, vUv + wave / 2.).g;
-//   float b = texture2D(uTexture, vUv).b;
+
   vec3 texture = vec3(r1, g1 ,b1);
-//   vec4 color = texture2D(uTexture, vUv);
 
-    // gl_FragColor = color;
-    // gl_FragColor = vec4(1.,0.,0.,1.);
-  gl_FragColor = vec4(texture, 1.);
-
+	gl_FragColor = vec4(texture, 1.);
 }
