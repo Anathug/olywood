@@ -38,6 +38,7 @@ class ThreeScene {
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
         this.createFont = this.createFont.bind(this);
+        this.onMouseScroll = this.onMouseScroll.bind(this);
         this.slideCameraRight = this.slideCameraRight.bind(this);
 
         this.init();
@@ -53,11 +54,17 @@ class ThreeScene {
         this.renderer.debug.checkShaderErrors = true;
         document.body.appendChild(this.renderer.domElement);
         this.scene = new THREE.Scene();
+        {
+            const color = 0xFFFFFF;  // white
+            const near = 1;
+            const far = 2;
+            this.scene.fog = new THREE.Fog(color, near, far);
+        }
         this.camera = new THREE.PerspectiveCamera(
             45,
             window.innerWidth / window.innerHeight,
             0.1,
-            100
+            1000
         );
 
         this.camera.position.set(0, 0, 1);
@@ -70,6 +77,12 @@ class ThreeScene {
         });
         window.addEventListener("click", () => {
             this.isMouseOver();
+        });
+    }
+
+    onMouseScroll(e) {
+        gsap.to(this.camera.position, 0.5, {
+            z: "+=" + e.deltaY
         });
     }
 
@@ -127,15 +140,14 @@ class ThreeScene {
         this.scene.add(mesh);
     }
 
-    createFont() {
+    createFont(x, y, z, text) {
         loadFont('fonts/Lato-Black.fnt', (err, font) => {
 
             const geometry = createGeometry({
                 font: font,
-                text: 'ENDLESS'
+                text: text,
+                align: 'center'
             })
-
-            // geometry.update('Lorem ipsum\nDolor sit amet.')
 
             const textureLoader = new THREE.TextureLoader();
             textureLoader.load('fonts/Lato-Black.png', (texture) => {
@@ -150,9 +162,9 @@ class ThreeScene {
                 );
 
                 const mesh = new THREE.Mesh(geometry, material)
-                mesh.position.set(-90, -10, 0); // Move according to text size
-                mesh.rotation.set(Math.PI, 0, 0); // Spin to face correctly
-                console.log(mesh)
+                mesh.position.set(x, y, z);
+                mesh.rotation.set(Math.PI, 0, 0);
+                mesh.scale.y = 0;
                 this.scene.add(mesh)
             })
         })
@@ -164,7 +176,6 @@ class ThreeScene {
             mesh.material.uniforms.uTime.value += 0.01;
         })
         this.getSpeed();
-        console.log(this.camera.position.z -= 1)
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);
     }

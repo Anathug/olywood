@@ -37,8 +37,8 @@ body {
   width: 100vw;
   overflow: hidden;
   position: relative;
-  background-color: #161920;
-  color: white;
+  color: black;
+  background-color: #e9e9e9;
   padding: 0;
   margin: 0;
   font-family: "Lato", sans-serif;
@@ -63,5 +63,10 @@ canvas {
   padding: 7vh;
   position: relative;
   z-index: 2;
+}
+
+.overflow-hidden {
+  position: relative;
+  overflow: hidden;
 }
 </style>

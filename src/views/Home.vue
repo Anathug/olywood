@@ -1,19 +1,31 @@
 <template>
   <div class="home">
     <div class="home__title__wrapper">
-      <h2>
-        <span ref="letter" v-for="(letter, i) in title" :key="i">
-          {{ letter }}
-        </span>
+      <h2 class="home__title__wrapper__upper-text">
+        <div class="overflow-hidden">
+          <span ref="letter" v-for="(letter, i) in firstTitle" :key="i">
+            {{ letter }}
+          </span>
+        </div>
+      </h2>
+      <h2 class="home__title__wrapper__lower-text">
+        <div class="overflow-hidden">
+          <span ref="letter" v-for="(letter, i) in secondTitle" :key="i">
+            {{ letter }}
+          </span>
+        </div>
       </h2>
     </div>
     <div class="home__fake-wrapper">
-      <div class="home__fake-wrapper__image-bolywood">
+      <div class="home__fake-wrapper__image">
         <router-link class="cursor-over" to="/olywood"> </router-link>
       </div>
-      <div class="home__fake-wrapper__image-holywood">
-        <router-link class="cursor-over" to="/olywood"> </router-link>
-      </div>
+    </div>
+    <div class="home__description-wrapper">
+      <p>
+        Comparative datavisualisation between the two major film industries in
+        the world through 5 data
+      </p>
     </div>
   </div>
 </template>
@@ -25,26 +37,25 @@ export default {
   name: "Home",
   data: function() {
     return {
-      title: "Bolywood",
+      firstTitle: "lly",
+      secondTitle: "dataviz",
     };
   },
   mounted() {
-    const svgUp = document.querySelector(".svg-up");
-    const svgDown = document.querySelector(".svg-down");
+    const holywoodButton = document.querySelector(
+      ".nav-layout__right-wrapper__oly-wrapper__holywood"
+    );
+    const bolywoodButton = document.querySelector(
+      ".nav-layout__right-wrapper__oly-wrapper__bolywood"
+    );
+    const fakeWrapperImg = document.querySelector(".home__fake-wrapper");
     const firstNumber = document.querySelector(".first-number");
     const secondNumber = document.querySelector(".second-number");
-    const fakeWrapperImgBoly = document.querySelector(
-      ".home__fake-wrapper__image-bolywood"
-    );
-    const fakeWrapperImgHoly = document.querySelector(
-      ".home__fake-wrapper__image-holywood"
-    );
-    const fakeWrapperImg = [fakeWrapperImgBoly, fakeWrapperImgHoly];
-    const circle = document.querySelector(".nav-layout__left-wrapper circle");
+    const description = document.querySelector(".home__description-wrapper");
 
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    this.scene.createMesh(0);
+    this.scene.createMesh(0.15);
     this.scene.createMesh(3);
     this.currentIndex = 0;
     this.scene.camera.position.z = 1;
@@ -66,7 +77,7 @@ export default {
 
     gsap.to(this.scene.camera.position, {
       x: 0,
-      duration: 1,
+      duration: 2,
       delay: 1,
       ease: "power3.inOut",
     });
@@ -79,85 +90,80 @@ export default {
       },
     });
     const homeAnimation = homeTL
-
       .fromTo(
-        svgUp,
+        this.$refs.letter,
         {
-          x: -50,
+          y: 50,
+          alpha: 0,
+          stagger: 0.05,
         },
         {
-          x: 0,
+          y: 0,
+          alpha: 1,
+          stagger: 0.05,
         },
-        0.1
+        0
       )
       .fromTo(
-        svgDown,
+        holywoodButton,
         {
-          x: -50,
+          y: 50,
+          alpha: 0,
+          stagger: 0.05,
         },
         {
-          x: 0,
+          y: 0,
+          alpha: 1,
+          stagger: 0.05,
+        },
+        0
+      )
+      .fromTo(
+        bolywoodButton,
+        {
+          y: 50,
+          alpha: 0,
+          stagger: 0.05,
+        },
+        {
+          y: 0,
+          alpha: 1,
+          stagger: 0.05,
         },
         0.2
       )
       .fromTo(
-        circle,
+        description,
         {
-          x: -50,
+          y: 100,
+          alpha: 0,
+          skewY: 3,
         },
         {
-          x: 0,
+          y: 0,
+          alpha: 1,
+          skewY: 0,
         },
         0.3
-      )
-      .fromTo(
-        this.$refs.letter,
-        {
-          x: 600,
-          alpha: 0,
-          stagger: -0.05,
-        },
-        {
-          x: 0,
-          alpha: 1,
-          stagger: -0.05,
-        },
-        0
-      )
-      .from(
-        document.querySelector(".second-number"),
-        {
-          y: "-100%",
-        },
-        0
       );
 
     homeAnimation.play();
 
     //SLIDER ANIMATION
 
-    this.bolyIn = gsap
-      .to(this.$refs.letter, {
-        x: -300,
-        alpha: 0,
-        duration: 1,
-        delay: 0.2,
-        ease: "power4.inOut",
-        stagger: 0.05,
-      })
-      .pause();
-
-    svgUp.addEventListener("click", () => {
-      this.slideArrowUp(firstNumber, fakeWrapperImgBoly, fakeWrapperImgHoly);
+    holywoodButton.addEventListener("click", () => {
+      this.slideHolywood(firstNumber);
+      holywoodButton.classList.add("current-wood");
+      bolywoodButton.classList.remove("current-wood");
     });
-    svgDown.addEventListener("click", () => {
-      this.slideArrowDown(firstNumber, fakeWrapperImgBoly, fakeWrapperImgHoly);
+    bolywoodButton.addEventListener("click", () => {
+      this.slideBolywood(firstNumber);
+      holywoodButton.classList.remove("current-wood");
+      bolywoodButton.classList.add("current-wood");
     });
-    fakeWrapperImg.forEach((wrapper) =>
-      wrapper.addEventListener("click", () => {
-        this.enterExperience(homeAnimation);
-      })
-    );
+    fakeWrapperImg.addEventListener("click", () => {
+      this.enterExperience(homeAnimation);
+    });
   },
   beforeDestroy() {
     setTimeout(() => {
@@ -172,8 +178,7 @@ export default {
     }, 1000);
   },
   methods: {
-    slideArrowUp(firstNumber, fakeWrapperImgBoly, fakeWrapperImgHoly) {
-      this.bolyIn.play();
+    slideBolywood(firstNumber) {
       if (this.currentIndex === 0) {
         this.scene.slideCameraRight({
           onStart: () => {
@@ -184,13 +189,9 @@ export default {
           },
         });
         this.currentIndex = 1;
-        firstNumber.style.transform = "translateY(-100%)";
-        fakeWrapperImgBoly.style.transform = "translateX(-3000px)";
-        fakeWrapperImgHoly.style.transform = "translateX(0)";
       }
     },
-    slideArrowDown(firstNumber, fakeWrapperImgBoly, fakeWrapperImgHoly) {
-      this.bolyIn.reverse();
+    slideHolywood(firstNumber) {
       if (this.currentIndex === 1) {
         this.scene.slideCameraLeft({
           onStart: () => {
@@ -200,9 +201,6 @@ export default {
             this.scene.scene.children[1].visible = false;
           },
         });
-        fakeWrapperImgBoly.style.transform = "translateX(0)";
-        fakeWrapperImgHoly.style.transform = "translateX(3000px)";
-        firstNumber.style.transform = "translateY(0)";
       }
       this.currentIndex = 0;
     },
@@ -220,16 +218,22 @@ export default {
   left: 7vh;
   width: calc(100% - 14vh);
   height: calc(100% - 14vh);
+  h2 {
+    margin: 0;
+  }
   &__title__wrapper {
     position: relative;
-    left: 50vw;
+    left: 5vw;
     top: 43vh;
     transform: translateY(-50%);
-    h2 {
-      margin: 0;
-      font-size: 10rem;
-      -webkit-text-stroke: 1px white;
-      color: transparent;
+    font-size: 5.5vw;
+    -webkit-text-stroke: 1px #f69f55;
+    display: inline-block;
+    margin: 0;
+    color: transparent;
+    text-transform: uppercase;
+    &__upper-text,
+    &__lower-text {
       span {
         display: inline-block;
       }
@@ -237,16 +241,15 @@ export default {
   }
   &__fake-wrapper {
     z-index: 50;
-    width: 80%;
+    width: 65%;
     height: 80%;
     position: absolute;
     top: 10%;
-    left: 10%;
+    left: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
-    &__image-bolywood,
-    &__image-holywood {
+    &__image {
       width: 750px;
       position: absolute;
       height: 80vh;
@@ -256,8 +259,17 @@ export default {
         display: inline-block;
       }
     }
-    &__image-holywood {
-      transform: translateX(3000px);
+  }
+  &__description-wrapper {
+    position: relative;
+    left: 5vw;
+    top: 35vh;
+    opacity: 0;
+    transform: translateY(-50%);
+    p {
+      margin: 0;
+      width: 300px;
+      line-height: 1.5rem;
     }
   }
 }

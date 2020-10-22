@@ -10,15 +10,15 @@ import gsap from "gsap";
 export default {
   name: "CurstomCursor",
   mounted() {
-      const cursorOver = document.querySelectorAll('.cursor-over')
-      cursorOver.forEach((cursor) => {
-          cursor.addEventListener('mouseover', () => {
-              this.onMouseOver()
-          })
-           cursor.addEventListener('mouseout', () => {
-              this.onMouseOut()
-          })
-      })
+    const cursorOver = document.querySelectorAll(".cursor-over");
+    cursorOver.forEach((cursor) => {
+      cursor.addEventListener("mouseover", () => {
+        this.onMouseOver();
+      });
+      cursor.addEventListener("mouseout", () => {
+        this.onMouseOut();
+      });
+    });
     window.addEventListener("mousemove", (e) => {
       this.onMouseMove(e);
     });
@@ -42,7 +42,7 @@ export default {
       });
     },
     onMouseOut() {
-         gsap.to(this.$refs.circle, {
+      gsap.to(this.$refs.circle, {
         duration: 0.5,
         scale: 1,
         ease: "power4.out",
@@ -54,19 +54,19 @@ export default {
 
 <style scoped lang="scss">
 .custom-cursor {
-    position: absolute;
-    pointer-events: none;
-    z-index: 10;
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
   &__pointer {
     width: 10px;
     height: 10px;
-    background-color: white;
+    background-color: #f69f55;
     border-radius: 50%;
   }
   &__circle {
     width: 40px;
     height: 40px;
-    border: white 1px solid;
+    border: #f69f55 1px solid;
     border-radius: 50%;
   }
 }

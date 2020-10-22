@@ -1,27 +1,15 @@
 <template>
   <div class="nav-layout">
     <div class="nav-layout__left-wrapper">
-      <router-link class="cursor-over" to="/">Ollywood</router-link>
-      <div class="nav-layout__left-wrapper__arrow-wrapper">
-        <img
-          ref="svgUp"
-          class="svg-up cursor-over"
-          src="../assets/svg/arrow.svg"
-          alt=""
-        />
-        <img
-          ref="svgDown"
-          class="svg-down cursor-over"
-          src="../assets/svg/arrow.svg"
-          alt=""
-        />
-      </div>
+      <router-link class="nav-layout__left-wrapper__home cursor-over" to="/"
+        >LLY</router-link
+      >
       <svg height="50" width="50">
         <circle
           cx="25"
           cy="25"
           r="20"
-          stroke="white"
+          stroke="black"
           stroke-width="1"
           fill="transparent"
         />
@@ -31,13 +19,29 @@
       <router-link to="/about">
         <BurgerMenu />
       </router-link>
+      <div class="nav-layout__right-wrapper__oly-wrapper">
+        <div class="overflow-hidden">
+          <div
+            class="nav-layout__right-wrapper__oly-wrapper__holywood cursor-over current-wood"
+          >
+            Holywood
+          </div>
+        </div>
+        <div class="overflow-hidden">
+          <div
+            class="nav-layout__right-wrapper__oly-wrapper__bolywood cursor-over"
+          >
+            Bolywood
+          </div>
+        </div>
+      </div>
       <div class="nav-layout__right-wrapper__indicator">
         <div class="first-number-wrapper">
           <div class="first-number">1</div>
         </div>
         <div class="line"></div>
         <div class="second-number-wrapper">
-          <div class="second-number">2</div>
+          <div class="second-number">5</div>
         </div>
       </div>
     </div>
@@ -73,50 +77,45 @@ export default {
   &__left-wrapper {
     display: flex;
     flex-direction: column;
-    &__arrow-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      align-self: center;
-      overflow: hidden;
-      .svg-up,
-      .svg-down {
-        cursor: none;
-      }
-      .svg-down {
-        transform: rotate(180deg);
-        margin-top: 150px;
-      }
+    &__home {
+      font-size: 1.3rem;
+      font-weight: 900;
     }
     svg {
       overflow: hidden;
+      circle {
+        transform: translateX(-50px);
+      }
     }
   }
 
   &__right-wrapper {
     align-items: flex-end;
+    &__oly-wrapper {
+      color: grey;
+      &__holywood,
+      &__bolywood {
+        margin-bottom: 20px;
+        transition: 0.5s color;
+        transform: translateY(50px);
+      }
+    }
     &__indicator {
       display: flex;
       align-items: center;
       .line {
         width: 80px;
         height: 1px;
-        background-color: white;
+        background-color: black;
         padding: 10 10px;
+        transform: scaleX(0);
       }
       .first-number-wrapper {
         padding-right: 20px;
         position: relative;
         overflow: hidden;
         .first-number {
-          transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
-          &:after {
-            content: "2";
-            position: absolute;
-            top: 100%;
-            left: 0;
-          }
+          transform: translateY(50px);
         }
       }
       .second-number-wrapper {
@@ -124,7 +123,7 @@ export default {
         position: relative;
         overflow: hidden;
         .second-number {
-          transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+          transform: translateY(50px);
           &:after {
             content: "5";
             position: absolute;
@@ -137,11 +136,13 @@ export default {
   }
 }
 
+.current-wood {
+  color: black;
+}
 a {
-  color: white;
+  color: black;
   text-decoration: none;
   position: relative;
-  padding: 5px;
   //   z-index: 10;
 }
 </style>
