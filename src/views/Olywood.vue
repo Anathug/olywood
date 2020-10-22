@@ -207,14 +207,14 @@ export default {
 
 <style lang="scss">
 .first-section__sub-section h3 .char {
-  transition-delay: calc(20ms * var(--char-index));
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(20ms * var(--char-index));
   transform: translateY(100%);
 }
 
 .first-section__sub-section p .char {
-  transition-delay: calc(60ms * var(--char-index));
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(60ms * var(--char-index));
   transform: scale(0);
 }
 
