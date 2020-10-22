@@ -64,21 +64,23 @@ export default {
     this.firstMesh.name = "secondMesh";
     this.scene.camera.position.x = 0;
     this.scene.camera.position.z = 1;
+    // this.particles = this.scene.createParticles();
+
     this.currentIndex = 0;
 
-    gsap.fromTo(
-      this.firstMesh.material.uniforms.progress,
-      {
-        value: 100,
-        duration: 1,
-      },
-      {
-        value: 0,
-        duration: 3,
-        delay: 1,
-        ease: "power3.inOut",
-      }
-    );
+    // gsap.fromTo(
+    //   this.firstMesh.material.uniforms.progress,
+    //   {
+    //     value: 100,
+    //     duration: 1,
+    //   },
+    //   {
+    //     value: 0,
+    //     duration: 3,
+    //     delay: 1,
+    //     ease: "power3.inOut",
+    //   }
+    // );
 
     // HOME ANIMATION
 
@@ -209,8 +211,8 @@ export default {
   position: absolute;
   top: 7vh;
   left: 7vh;
-  width: calc(100% - 14vh);
-  height: calc(100% - 14vh);
+  width: calc(100vw - 14vh);
+  height: calc(100vh - 14vh);
   h2 {
     margin: 0;
   }
@@ -255,8 +257,9 @@ export default {
   }
   &__description-wrapper {
     position: relative;
-    left: 5vw;
-    top: 35vh;
+    display: inline-block;
+    left: -31vw;
+    top: 45vh;
     opacity: 0;
     transform: translateY(-50%);
     p {

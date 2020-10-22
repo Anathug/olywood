@@ -28,6 +28,7 @@ class ThreeScene {
         this.imgLoaded = false;
         this.particles = null;
         this.particle = null;
+        this.olywood = false;
         this.points = null;
         this.mouse = new THREE.Vector2();
         this.prevMouse = new THREE.Vector2();
@@ -88,8 +89,7 @@ class ThreeScene {
     }
 
     createParticles() {
-        // const xSpeed = 0.0005;
-        // const ySpeed = 0.001;
+
         const particleCount = 2000;
         this.particles = new THREE.Geometry();
         this.material = new THREE.PointsMaterial({
@@ -110,8 +110,6 @@ class ThreeScene {
             this.points.sortParticles = true;
             this.scene.add(this.points);
         }
-
-        return this.points
     }
 
     onMouseMove(e) {
@@ -175,6 +173,23 @@ class ThreeScene {
             mesh.material.uniforms.speed.value = this.targetSpeed
             mesh.material.uniforms.uTime.value += 0.01;
         })
+
+        if (this.olywood) {
+            this.scene.rotation.y += 0.0005;
+            var i = 1000;
+            console.log(this.particles)
+            // while (i--) {
+            //     var particle = this.particles.vertices[i];
+            //     if (particle.y > 1000) {
+            //         particle.y = -1000;
+            //         particle.velocity.y = Math.random();
+            //     }
+            //     particle.velocity.y += Math.random() * 0.001;
+
+            //     particle.add(particle.velocity);
+            //     this.points.geometry.verticesNeedUpdate = true;
+            // }
+        }
         this.getSpeed();
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);

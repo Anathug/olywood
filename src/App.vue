@@ -34,8 +34,6 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap");
 html,
 body {
-  width: 100vw;
-  overflow: hidden;
   position: relative;
   color: black;
   background-color: #e9e9e9;

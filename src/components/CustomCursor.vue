@@ -54,7 +54,7 @@ export default {
 
 <style scoped lang="scss">
 .custom-cursor {
-  position: absolute;
+  position: fixed;
   pointer-events: none;
   z-index: 10;
   &__pointer {

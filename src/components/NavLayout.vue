@@ -62,9 +62,10 @@ export default {
 <style scoped lang="scss">
 .nav-layout {
   height: 86vh;
+  width: 93vw;
   display: flex;
   justify-content: space-between;
-  position: relative;
+  position: fixed;
   z-index: 12;
 
   &__left-wrapper,
