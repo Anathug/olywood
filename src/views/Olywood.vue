@@ -11,10 +11,21 @@ export default {
   mounted() {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    this.scene.createFont(-170, -30, 2, "Number of movies \n shot per years");
+    this.firstText = this.scene.createFont(
+      -170,
+      -30,
+      2,
+      "Number of movies \n shot per years"
+    );
+    this.secondText = this.scene.createFont(-100, 30, -600, "Bolywood \n 1600");
+    this.thirdText = this.scene.createFont(-100, -100, -600, "Holywood \n 500");
+    console.log(this.scene);
+    // this.scene.createParticles();
+    this.scene.camera.position.z = 10000;
     window.addEventListener("mousewheel", (e) => {
       this.scene.onMouseScroll(e);
     });
+
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
     );
@@ -38,35 +49,20 @@ export default {
     });
 
     setTimeout(() => {
-      this.olyThreeAnimation = olyThreeTL
-        .fromTo(
-          this.scene.scene.children[0].scale,
-          {
-            y: 0,
-            duration: 2,
-            ease: "power4.out",
-          },
-          {
-            y: 1,
-            duration: 2,
-            ease: "power4.inOut",
-          },
-          0
-        )
-        .fromTo(
-          this.scene.camera.position,
-          {
-            z: 1000,
-            duration: 2,
-            ease: "power4.out",
-          },
-          {
-            z: 300,
-            duration: 2,
-            ease: "power4.inOut",
-          },
-          0
-        );
+      this.olyThreeAnimation = olyThreeTL.fromTo(
+        this.scene.camera.position,
+        {
+          z: 10000,
+          duration: 2,
+          ease: "power4.out",
+        },
+        {
+          z: 300,
+          duration: 2,
+          ease: "power4.inOut",
+        },
+        0
+      );
       this.olyThreeAnimation.play();
     }, 1000);
 
@@ -134,11 +130,13 @@ export default {
   beforeDestroy() {
     this.olyAnimation.reverse();
     this.olyThreeAnimation.reverse();
-    setTimeout(() => {
-      this.scene.scene.children[0].geometry.dispose();
-      this.scene.scene.children[0].material.dispose();
-      this.scene.scene.remove(this.scene.scene.children[0]);
-    }, 1500);
+
+    window.removeEventListener("mousewheel", (e) => {
+      this.scene.onMouseScroll(e);
+    });
+    // setTimeout(() => {
+
+    // }, 1500);
   },
 };
 </script>

@@ -24,14 +24,14 @@
           <div
             class="nav-layout__right-wrapper__oly-wrapper__holywood cursor-over current-wood"
           >
-            Holywood
+            Hollywood
           </div>
         </div>
         <div class="overflow-hidden">
           <div
             class="nav-layout__right-wrapper__oly-wrapper__bolywood cursor-over"
           >
-            Bolywood
+            Bollywood
           </div>
         </div>
       </div>

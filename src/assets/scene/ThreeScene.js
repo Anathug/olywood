@@ -27,6 +27,8 @@ class ThreeScene {
         this.targetSpeed = null;
         this.meshes = [];
         this.imgLoaded = false;
+        this.particles = null;
+        this.particle = null;
         this.points = null;
         this.mouse = new THREE.Vector2();
         this.prevMouse = new THREE.Vector2();
@@ -37,6 +39,7 @@ class ThreeScene {
         this.init = this.init.bind(this);
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
+        this.createParticles = this.createParticles.bind(this);
         this.createFont = this.createFont.bind(this);
         this.onMouseScroll = this.onMouseScroll.bind(this);
         this.slideCameraRight = this.slideCameraRight.bind(this);
@@ -64,7 +67,7 @@ class ThreeScene {
             45,
             window.innerWidth / window.innerHeight,
             0.1,
-            1000
+            10000
         );
 
         this.camera.position.set(0, 0, 1);
@@ -84,6 +87,33 @@ class ThreeScene {
         gsap.to(this.camera.position, 0.5, {
             z: "+=" + e.deltaY
         });
+    }
+
+    createParticles() {
+        // const xSpeed = 0.0005;
+        // const ySpeed = 0.001;
+        const particleCount = 2000;
+        this.particles = new THREE.Geometry();
+        this.material = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 3,
+            transparent: true,
+            blending: THREE.AdditiveBlending
+        });
+
+        for (var i = 0; i < particleCount; i++) {
+            var px = Math.random() * 2000 - 1000;
+            var py = Math.random() * 2000 - 1000;
+            var pz = Math.random() * 4000 - 3000;
+            this.particle = new THREE.Vector3(px, py, pz);
+            this.particle.velocity = new THREE.Vector3(0, Math.random(), 0);
+            this.particles.vertices.push(this.particle);
+            this.points = new THREE.Points(this.particles, this.material);
+            this.points.sortParticles = true;
+            this.scene.add(this.points);
+        }
+
+        return this.points
     }
 
     onMouseMove(e) {
@@ -138,9 +168,12 @@ class ThreeScene {
         mesh.position.x = posX;
         this.meshes.push(mesh);
         this.scene.add(mesh);
+
+        return mesh
     }
 
     createFont(x, y, z, text) {
+        let mesh;
         loadFont('fonts/Lato-Black.fnt', (err, font) => {
 
             const geometry = createGeometry({
@@ -161,10 +194,9 @@ class ThreeScene {
                     })
                 );
 
-                const mesh = new THREE.Mesh(geometry, material)
+                mesh = new THREE.Mesh(geometry, material)
                 mesh.position.set(x, y, z);
                 mesh.rotation.set(Math.PI, 0, 0);
-                mesh.scale.y = 0;
                 this.scene.add(mesh)
             })
         })

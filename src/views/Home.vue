@@ -55,32 +55,29 @@ export default {
 
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    this.scene.createMesh(0.15);
-    this.scene.createMesh(3);
-    this.currentIndex = 0;
+    this.firstMesh = this.scene.createMesh(0.15);
+    this.secondMesh = this.scene.createMesh(3.15);
+    this.firstMesh.name = "firstMesh";
+    this.firstMesh.name = "secondMesh";
+    this.scene.camera.position.x = 0;
     this.scene.camera.position.z = 1;
-    // gsap.fromTo(
-    //   this.scene.scene.children[0].material.uniforms.progress,
-    //   {
-    //     value: 500,
-    //     duration: 1,
-    //   },
-    //   {
-    //     value: 0,
-    //     duration: 2,
-    //     delay: 1,
-    //     ease: "back.out(1)",
-    //   }
-    // );
+    this.currentIndex = 0;
+
+    gsap.fromTo(
+      this.firstMesh.material.uniforms.progress,
+      {
+        value: 100,
+        duration: 1,
+      },
+      {
+        value: 0,
+        duration: 3,
+        delay: 1,
+        ease: "power3.inOut",
+      }
+    );
 
     // HOME ANIMATION
-
-    gsap.to(this.scene.camera.position, {
-      x: 0,
-      duration: 2,
-      delay: 1,
-      ease: "power3.inOut",
-    });
 
     const homeTL = gsap.timeline({
       paused: true,
@@ -167,14 +164,7 @@ export default {
   },
   beforeDestroy() {
     setTimeout(() => {
-      this.scene.scene.children[0].geometry.dispose();
-      this.scene.scene.children[1].geometry.dispose();
-      this.scene.scene.children[0].material.dispose();
-      this.scene.scene.children[1].material.dispose();
-      this.scene.scene.remove(
-        this.scene.scene.children[0],
-        this.scene.scene.children[1]
-      );
+      this.scene.scene.remove(this.firstMesh, this.secondMesh);
     }, 1000);
   },
   methods: {
@@ -182,10 +172,10 @@ export default {
       if (this.currentIndex === 0) {
         this.scene.slideCameraRight({
           onStart: () => {
-            this.scene.scene.children[1].visible = true;
+            this.secondMesh.visible = true;
           },
           onComplete: () => {
-            this.scene.scene.children[0].visible = false;
+            this.firstMesh.visible = false;
           },
         });
         this.currentIndex = 1;
@@ -195,10 +185,10 @@ export default {
       if (this.currentIndex === 1) {
         this.scene.slideCameraLeft({
           onStart: () => {
-            this.scene.scene.children[0].visible = true;
+            this.firstMesh.visible = true;
           },
           onComplete: () => {
-            this.scene.scene.children[1].visible = false;
+            this.secondMesh.visible = false;
           },
         });
       }
