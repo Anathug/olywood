@@ -13,8 +13,8 @@ export default {
   mounted() {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    console.log(this.scene.createParticles);
-    console.log(this.scene);
+    this.scene.createFont();
+    this.scene.camera.position.z = 100;
   },
 };
 </script>

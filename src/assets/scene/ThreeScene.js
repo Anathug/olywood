@@ -1,12 +1,21 @@
-import * as THREE from "three";
 import gsap from "gsap";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import holywoodImg from "../img/holywood.jpg";
+global.THREE = require("three");
+const THREE = global.THREE;
+const createGeometry = require('three-bmfont-text')
+const loadFont = require('load-bmfont')
+
+// Font assets
+// const fontFile = require("../fonts/Lato-Black.fnt");
+// const fontAtlas = require("../fonts/Lato-Black.png");
+
 
 const vertexShaderRaw = require("raw-loader!glslify-loader!./glsl/vertex.glsl");
 const fragmentShaderRaw = require("raw-loader!glslify-loader!./glsl/fragment.glsl");
 const vertexShader = vertexShaderRaw.default;
 const fragmentShader = fragmentShaderRaw.default;
+const MSDFShader = require('three-bmfont-text/shaders/msdf');
 class ThreeScene {
     constructor() {
         // BASIC SCENE
@@ -28,13 +37,14 @@ class ThreeScene {
         this.init = this.init.bind(this);
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
+        this.createFont = this.createFont.bind(this);
         this.slideCameraRight = this.slideCameraRight.bind(this);
 
         this.init();
         this.render();
     }
     init() {
-        this.renderer = new THREE.WebGLRenderer({
+        this.renderer = new THREE.WebGL1Renderer({
             antialias: true,
             alpha: true,
         });
@@ -51,6 +61,8 @@ class ThreeScene {
         );
 
         this.camera.position.set(0, 0, 1);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+
         gsap.ticker.add(this.render);
         window.addEventListener("resize", this.resizeCanvas);
         window.addEventListener("mousemove", (e) => {
@@ -65,8 +77,8 @@ class ThreeScene {
         gsap.to(this.mouse, 0.5, {
             // x: e.clientX / window.innerWidth,
             // y: 1 - e.clientY / window.innerHeight,
-            x: (event.clientX / window.innerWidth) * 2 - 1,
-            y: -(event.clientY / window.innerHeight) * 2 + 1,
+            x: (e.clientX / window.innerWidth) * 2 - 1,
+            y: -(e.clientY / window.innerHeight) * 2 + 1,
         });
     }
 
@@ -115,12 +127,44 @@ class ThreeScene {
         this.scene.add(mesh);
     }
 
+    createFont() {
+        loadFont('fonts/Lato-Black.fnt', (err, font) => {
+
+            const geometry = createGeometry({
+                font: font,
+                text: 'ENDLESS'
+            })
+
+            // geometry.update('Lorem ipsum\nDolor sit amet.')
+
+            const textureLoader = new THREE.TextureLoader();
+            textureLoader.load('fonts/Lato-Black.png', (texture) => {
+                const material = new THREE.RawShaderMaterial(
+                    MSDFShader({
+                        map: texture,
+                        color: 0x000000,
+                        side: THREE.DoubleSide,
+                        transparent: true,
+                        negate: false
+                    })
+                );
+
+                const mesh = new THREE.Mesh(geometry, material)
+                mesh.position.set(-90, -10, 0); // Move according to text size
+                mesh.rotation.set(Math.PI, 0, 0); // Spin to face correctly
+                console.log(mesh)
+                this.scene.add(mesh)
+            })
+        })
+    }
+
     render() {
         this.meshes.forEach((mesh) => {
             mesh.material.uniforms.speed.value = this.targetSpeed
             mesh.material.uniforms.uTime.value += 0.01;
         })
         this.getSpeed();
+        console.log(this.camera.position.z -= 1)
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);
     }
