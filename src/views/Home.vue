@@ -33,6 +33,9 @@
 <script>
 import Bridge from "@/assets/scene/Bridge";
 import gsap from "gsap";
+import hollyWoodImg from "../assets/img/holywood.jpg";
+import bollyWoodImg from "../assets/img/bolywood.jpg";
+
 export default {
   name: "Home",
   data: function() {
@@ -55,8 +58,8 @@ export default {
 
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    this.firstMesh = this.scene.createMesh(0.15);
-    this.secondMesh = this.scene.createMesh(3.15);
+    this.firstMesh = this.scene.createMesh(0.15, hollyWoodImg);
+    this.secondMesh = this.scene.createMesh(3.15, bollyWoodImg);
     this.firstMesh.name = "firstMesh";
     this.firstMesh.name = "secondMesh";
     this.scene.camera.position.x = 0;

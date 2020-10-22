@@ -1,5 +1,7 @@
 <template>
-  <div class="olywood"></div>
+  <div class="olywood">
+    <section class="olywood__first-section"></section>
+  </div>
 </template>
 
 <script>
@@ -11,20 +13,7 @@ export default {
   mounted() {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    this.firstText = this.scene.createFont(
-      -170,
-      -30,
-      2,
-      "Number of movies \n shot per years"
-    );
-    this.secondText = this.scene.createFont(-100, 30, -600, "Bolywood \n 1600");
-    this.thirdText = this.scene.createFont(-100, -100, -600, "Holywood \n 500");
-    console.log(this.scene);
     // this.scene.createParticles();
-    this.scene.camera.position.z = 10000;
-    window.addEventListener("mousewheel", (e) => {
-      this.scene.onMouseScroll(e);
-    });
 
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
@@ -47,24 +36,6 @@ export default {
         ease: "power3.inOut",
       },
     });
-
-    setTimeout(() => {
-      this.olyThreeAnimation = olyThreeTL.fromTo(
-        this.scene.camera.position,
-        {
-          z: 10000,
-          duration: 2,
-          ease: "power4.out",
-        },
-        {
-          z: 300,
-          duration: 2,
-          ease: "power4.inOut",
-        },
-        0
-      );
-      this.olyThreeAnimation.play();
-    }, 1000);
 
     const olyTL = gsap.timeline({
       paused: true,
@@ -129,14 +100,10 @@ export default {
   },
   beforeDestroy() {
     this.olyAnimation.reverse();
-    this.olyThreeAnimation.reverse();
 
-    window.removeEventListener("mousewheel", (e) => {
-      this.scene.onMouseScroll(e);
-    });
-    // setTimeout(() => {
-
-    // }, 1500);
+    // window.removeEventListener("mousewheel", (e) => {
+    //   this.scene.onMouseScroll(e);
+    // });
   },
 };
 </script>

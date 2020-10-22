@@ -1,6 +1,5 @@
 import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import holywoodImg from "../img/holywood.jpg";
 global.THREE = require("three");
 const THREE = global.THREE;
 const createGeometry = require('three-bmfont-text')
@@ -40,7 +39,6 @@ class ThreeScene {
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
         this.createParticles = this.createParticles.bind(this);
-        this.createFont = this.createFont.bind(this);
         this.onMouseScroll = this.onMouseScroll.bind(this);
         this.slideCameraRight = this.slideCameraRight.bind(this);
 
@@ -134,7 +132,7 @@ class ThreeScene {
         this.prevMouse.y = this.mouse.y;
         this.targetSpeed += 0.1 * (this.speed - this.targetSpeed);
     }
-    createMesh(posX) {
+    createMesh(posX, img) {
         const geometry = new THREE.PlaneGeometry(0.7, 0.5, 32, 32);
         const textureLoader = new THREE.TextureLoader();
         const material = new THREE.ShaderMaterial({
@@ -152,7 +150,7 @@ class ThreeScene {
         });
 
         textureLoader.load(
-            holywoodImg,
+            img,
             (texture) => {
                 this.imgLoaded = true
                 material.uniforms.uTexture.value = texture
@@ -170,36 +168,6 @@ class ThreeScene {
         this.scene.add(mesh);
 
         return mesh
-    }
-
-    createFont(x, y, z, text) {
-        let mesh;
-        loadFont('fonts/Lato-Black.fnt', (err, font) => {
-
-            const geometry = createGeometry({
-                font: font,
-                text: text,
-                align: 'center'
-            })
-
-            const textureLoader = new THREE.TextureLoader();
-            textureLoader.load('fonts/Lato-Black.png', (texture) => {
-                const material = new THREE.RawShaderMaterial(
-                    MSDFShader({
-                        map: texture,
-                        color: 0x000000,
-                        side: THREE.DoubleSide,
-                        transparent: true,
-                        negate: false
-                    })
-                );
-
-                mesh = new THREE.Mesh(geometry, material)
-                mesh.position.set(x, y, z);
-                mesh.rotation.set(Math.PI, 0, 0);
-                this.scene.add(mesh)
-            })
-        })
     }
 
     render() {
