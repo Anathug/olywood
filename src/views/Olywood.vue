@@ -173,7 +173,7 @@
             <img
               v-for="i in 3"
               :key="i"
-              :style="`transition-delay: ${i / 10}s`"
+              :style="`transition-delay: ${i / 30}s`"
               src="../assets/img/bx-heart.png"
             />
           </div>
@@ -186,7 +186,7 @@
             <img
               v-for="i in 27"
               :key="i"
-              :style="`transition-delay: ${i / 10}s`"
+              :style="`transition-delay: ${i / 30}s`"
               src="../assets/img/bx-heart.png"
             />
           </div>
@@ -237,9 +237,10 @@ export default {
       const numbers = document.querySelector(".first-number");
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-      } else {
-        entry.target.classList.remove("is-visible");
       }
+      //    else {
+      //     entry.target.classList.remove("is-visible");
+      //   }
       if (this.$refs.firstSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(0)";
       }
@@ -739,7 +740,7 @@ p {
   width: 400px;
   img {
     margin: 15px;
-    transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+    transition: 1s cubic-bezier(1, 0, 0.35, 1);
     transform: scale(0);
   }
 }
