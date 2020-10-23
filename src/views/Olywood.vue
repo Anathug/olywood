@@ -6,7 +6,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.2,
+          threshold: 0.4,
         },
       }"
       class="first-section"
@@ -19,7 +19,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.2,
+            threshold: 0.4,
           },
         }"
         class="first-section__sub-section"
@@ -46,7 +46,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.2,
+          threshold: 0.4,
         },
       }"
       class="second-section"
@@ -59,7 +59,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.2,
+            threshold: 0.4,
           },
         }"
         class="second-section__sub-section"
@@ -97,7 +97,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.2,
+          threshold: 0.4,
         },
       }"
       class="third-section"
@@ -110,7 +110,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.2,
+            threshold: 0.4,
           },
         }"
         class="third-section__sub-section"
@@ -146,7 +146,63 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.2,
+          threshold: 0.4,
+        },
+      }"
+      ref="fourthSection"
+      class="fourth-section"
+    >
+      <DataSections
+        :firstTitle="dataSections[3].firstTitle"
+        :secondTitle="dataSections[3].secondTitle"
+      />
+      <div
+        v-observe-visibility="{
+          callback: visibilityChanged,
+          intersection: {
+            threshold: 0.4,
+          },
+        }"
+        class="fourth-section__sub-section"
+      >
+        <div class="fourth-section__sub-section__left">
+          <div class="overflow-hidden">
+            <h3 data-splitting>Bollywood</h3>
+          </div>
+          <div class="heart-wrapper">
+            <img
+              v-for="i in 3"
+              :key="i"
+              :style="`transition-delay: ${i / 10}s`"
+              src="../assets/img/bx-heart.png"
+            />
+          </div>
+        </div>
+        <div class="fourth-section__sub-section__right">
+          <div class="overflow-hidden">
+            <h3 data-splitting>Hollywood</h3>
+          </div>
+          <div class="heart-wrapper">
+            <img
+              v-for="i in 27"
+              :key="i"
+              :style="`transition-delay: ${i / 10}s`"
+              src="../assets/img/bx-heart.png"
+            />
+          </div>
+        </div>
+      </div>
+      <p data-splitting>
+        3 famous actors who played bollywood died in 2020 against 27 who played
+        in Hollywood.
+      </p>
+      <SectionPageBG firstColor="#47516B" secondColor="#424C65" />
+    </section>
+    <section
+      v-observe-visibility="{
+        callback: visibilityChanged,
+        intersection: {
+          threshold: 0.4,
         },
       }"
       ref="fifthSection"
@@ -193,14 +249,17 @@ export default {
       if (this.$refs.thirdSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(-40px)";
       }
+      if (this.$refs.fourthSection.classList.contains("is-visible")) {
+        numbers.style.transform = "translateY(-60px)";
+      }
       if (this.$refs.fifthSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(-78px)";
       }
     },
     pageScroll(e, el, force) {
-      el.forEach((element, i) => {
+      el.forEach((element) => {
         gsap.to(element, {
-          y: "-=" + e.deltaY * force * (i + 0.5),
+          y: "-=" + e.deltaY * force,
           duration: 1,
           ease: "power2.out",
         });
@@ -409,7 +468,8 @@ export default {
   opacity: 0;
   transition: 0.1s 0.8s;
 }
-.first-section__sub-section h3 .char {
+.first-section__sub-section h3 .char,
+.fourth-section__sub-section h3 .char {
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
   transition-delay: calc(20ms * var(--char-index));
   transform: translateY(100%);
@@ -421,7 +481,8 @@ export default {
   transform: scale(0);
 }
 
-.first-section__sub-section.is-visible h3 .char {
+.first-section__sub-section.is-visible h3 .char,
+.fourth-section__sub-section.is-visible h3 .char {
   transform: translateY(0) !important;
 }
 
@@ -456,7 +517,8 @@ export default {
 
 .first-section__sub-section.is-visible p .char,
 .second-section__sub-section.is-visible p .char,
-.third-section__sub-section.is-visible p .char {
+.third-section__sub-section.is-visible p .char,
+.fourth-section__sub-section.is-visible img {
   transform: scale(1) !important;
 }
 
@@ -477,6 +539,7 @@ export default {
 .first-section.is-visible .page-bg,
 .second-section.is-visible .page-bg,
 .third-section.is-visible .page-bg,
+.fourth-section.is-visible .page-bg,
 .fifth-section.is-visible .page-bg {
   transform: scaleY(1) !important;
 }
@@ -591,13 +654,14 @@ export default {
     }
     &__img-right {
       img {
-        bottom: -150vh;
+        bottom: -100vh;
         right: -7vh;
       }
     }
   }
+  .fourth-section,
   .fifth-section {
-    margin-top: 30vh;
+    margin-top: 15vh;
   }
 }
 
@@ -641,6 +705,42 @@ p {
   }
   100% {
     opacity: 1;
+  }
+}
+
+.fourth-section {
+  &__sub-section {
+    display: flex;
+    position: relative;
+    margin-bottom: 10vh;
+    z-index: 10;
+    &__left,
+    &__right {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      //   justify-content: center;
+    }
+  }
+  p {
+    font-size: 1rem;
+    font-weight: 400;
+    position: relative;
+    z-index: 10;
+    text-align: center;
+  }
+}
+
+.heart-wrapper {
+  margin-top: 10vh;
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  img {
+    margin: 15px;
+    transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+    transform: scale(0);
   }
 }
 </style>
