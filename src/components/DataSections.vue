@@ -29,9 +29,18 @@ export default {
 
 //
 <style lang="scss">
+
+
+
 .data-sections h2 .char {
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
   transition-delay: calc(20ms * var(--char-index));
+  transform: translateY(100%);
+}
+
+.first-section .data-sections h2 .char {
+  transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(.5s + 20ms * var(--char-index));
   transform: translateY(100%);
 }
 

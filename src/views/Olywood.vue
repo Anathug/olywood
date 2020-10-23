@@ -6,7 +6,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.4,
+          threshold: 0.2,
         },
       }"
       class="first-section"
@@ -19,7 +19,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.4,
+            threshold: 0.2,
           },
         }"
         class="first-section__sub-section"
@@ -46,7 +46,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.4,
+          threshold: 0.2,
         },
       }"
       class="second-section"
@@ -59,7 +59,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.4,
+            threshold: 0.2,
           },
         }"
         class="second-section__sub-section"
@@ -97,7 +97,7 @@
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
-          threshold: 0.4,
+          threshold: 0.2,
         },
       }"
       class="third-section"
@@ -110,7 +110,7 @@
         v-observe-visibility="{
           callback: visibilityChanged,
           intersection: {
-            threshold: 0.4,
+            threshold: 0.2,
           },
         }"
         class="third-section__sub-section"
@@ -124,9 +124,6 @@
           </div>
           <div class="third-section__sub-section__left__comparaison"></div>
         </div>
-        <!-- <div class="arrow">
-          <img src="../assets/img/ARO.png" />
-        </div> -->
         <div class="third-section__sub-section__right">
           <h3>Bollywood</h3>
           <p data-splitting>379 000 000 $</p>
@@ -144,6 +141,19 @@
         <img src="../assets/img/PIR.png" />
       </div>
       <SectionPageBG firstColor="#9D4444" secondColor="#A14848" />
+    </section>
+    <section   v-observe-visibility="{
+        callback: visibilityChanged,
+        intersection: {
+          threshold: 0.2,
+        },
+      }" ref="fifthSection"
+      class="fifth-section">
+        <DataSections
+        :firstTitle="dataSections[4].firstTitle"
+        :secondTitle="dataSections[4].secondTitle"
+      />
+      <SectionPageBG firstColor="#1C2029" secondColor="#161920" />
     </section>
   </div>
 </template>
@@ -178,11 +188,14 @@ export default {
       if (this.$refs.thirdSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(-40px)";
       }
+      if (this.$refs.fifthSection.classList.contains("is-visible")) {
+        numbers.style.transform = "translateY(-78px)";
+      }
     },
     pageScroll(e, el, force) {
-      el.forEach((element) => {
+      el.forEach((element, i) => {
         gsap.to(element, {
-          y: "-=" + e.deltaY * force,
+          y: "-=" + e.deltaY * force * (i+1),
           duration: 1,
           ease: "power2.out",
         });
@@ -205,12 +218,12 @@ export default {
           secondTitle: "films",
         },
         {
-          firstTitle: "The actors who earn",
-          secondTitle: "the most in 2020",
+          firstTitle: "Number of dead ",
+          secondTitle: "actors in 2020",
         },
         {
-          firstTitle: "Number of dead ",
-          secondTitle: "actors in 2020 ",
+          firstTitle: "Thank you for",
+          secondTitle: "browsing the site ",
         },
       ],
     };
@@ -236,7 +249,7 @@ export default {
           document.querySelectorAll(
             ".second-section__img-left img, .second-section__img-right img"
           ),
-          1
+          2
         );
       }
       if (
@@ -458,7 +471,8 @@ export default {
 }
 .first-section.is-visible .page-bg,
 .second-section.is-visible .page-bg,
-.third-section.is-visible .page-bg {
+.third-section.is-visible .page-bg,
+.fifth-section.is-visible .page-bg  {
   transform: scaleY(1) !important;
 }
 </style>
@@ -507,7 +521,8 @@ export default {
     }
   }
   .second-section,
-  .third-section {
+  .third-section,
+  .fifth-section {
     margin-bottom: 10vh;
     &__sub-section {
       height: 100vh;
@@ -542,14 +557,14 @@ export default {
       &__left__comparaison {
         height: 50px;
         width: 120px;
-        background-color: white;
+        background-color: #F69F55;
         position: absolute;
         bottom: -10vh;
       }
       &__right__comparaison {
         height: 250px;
         width: 120px;
-        background-color: white;
+        background-color: #F69F55;
         position: absolute;
         bottom: -10vh;
       }

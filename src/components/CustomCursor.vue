@@ -22,6 +22,9 @@ export default {
     window.addEventListener("mousemove", (e) => {
       this.onMouseMove(e);
     });
+    window.addEventListener('click', () => {
+      this.onMouseClick()
+    })
   },
   methods: {
     onMouseMove(event) {
@@ -48,6 +51,13 @@ export default {
         ease: "power4.out",
       });
     },
+    onMouseClick() {
+       gsap.to(this.$refs.circle, {
+        duration: 0.5,
+        scale: 1,
+        ease: "power4.out",
+      });
+    }
   },
 };
 </script>
