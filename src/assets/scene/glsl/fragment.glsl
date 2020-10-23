@@ -8,6 +8,7 @@ uniform float uTime;
 uniform float progress;
 uniform sampler2D uTexture;
 uniform vec2 uMouse;
+uniform float PR;
 uniform float speed;
 
 
@@ -17,12 +18,12 @@ float circle(in vec2 _st, in float _radius, in float blurriness){
 }
 
 void main() {
-	vec2 res = uRes;
+	vec2 res = uRes * PR;
 	vec2 st = gl_FragCoord.xy / res.xy - vec2(0.5);
 	st.y *= uRes.y /uRes.x;
-    float normSpeed = clamp(speed * 20. ,0. ,1.); 
+    float normSpeed = clamp(speed * 100. ,0. ,1.); 
 
-	vec2 mouse = uMouse * -0.5;
+	vec2 mouse = uMouse * -1.;
 	
 	vec2 circlePos = st + mouse;
 	float c = circle(circlePos, .01, 2.);

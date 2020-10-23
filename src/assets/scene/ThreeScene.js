@@ -126,7 +126,7 @@ class ThreeScene {
                 progress: { value: 0 },
                 progress2: { value: 0 },
                 uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-                PR: { value: window.devicePixelRatio.toFixed(1) },
+                PR: { value: window.devicePixelRatio || 1 },
                 uTexture: { value: null },
                 uMouse: { value: this.mouse },
                 speed: { value: this.targetSpeed },

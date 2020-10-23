@@ -26,14 +26,14 @@
       >
         <div class="first-section__sub-section__bolywood">
           <div class="overflow-hidden">
-            <h3 data-splitting>Bolywood</h3>
+            <h3 data-splitting>Bollywood</h3>
           </div>
           <p data-splitting>1600</p>
           <div class="first-section__sub-section__bolywood__comparaison"></div>
         </div>
         <div class="first-section__sub-section__holywood">
           <div class="overflow-hidden">
-            <h3 data-splitting>Holywood</h3>
+            <h3 data-splitting>Hollywood</h3>
           </div>
           <p data-splitting>500</p>
           <div class="first-section__sub-section__holywood__comparaison"></div>
@@ -65,15 +65,18 @@
         class="second-section__sub-section"
       >
         <div class="second-section__sub-section__left">
-          <h3 data-splitting>Bolywood</h3>
+          <h3>Bollywood</h3>
           <p data-splitting>{{ numbers.second.price.bolywood }} $</p>
           <div class="h4-wrapper">
             <h4>dangal</h4>
             <h4>budget: 12 000 000$</h4>
           </div>
         </div>
+        <!-- <div class="arrow">
+          <img src="../assets/img/ARO.png" />
+        </div> -->
         <div class="second-section__sub-section__right">
-          <h3 data-splitting>Bolywood</h3>
+          <h3>Hollywood</h3>
           <p data-splitting>2 797 800 564 $</p>
           <div class="h4-wrapper">
             <h4>avengers: endgame</h4>
@@ -103,6 +106,41 @@
         :firstTitle="dataSections[1].firstTitle"
         :secondTitle="dataSections[1].secondTitle"
       />
+      <div
+        v-observe-visibility="{
+          callback: visibilityChanged,
+          intersection: {
+            threshold: 0.4,
+          },
+        }"
+        class="third-section__sub-section"
+      >
+        <div class="third-section__sub-section__left">
+          <h3>Bollywood</h3>
+          <p data-splitting>73 000 000 $</p>
+          <div class="h4-wrapper">
+            <h4>2.0</h4>
+            <h4>box-office: 108 628 480 $</h4>
+          </div>
+        </div>
+        <!-- <div class="arrow">
+          <img src="../assets/img/ARO.png" />
+        </div> -->
+        <div class="third-section__sub-section__right">
+          <h3>Bollywood</h3>
+          <p data-splitting>379 000 000 $</p>
+          <div class="h4-wrapper">
+            <h4>PotC: On Stranger Tides</h4>
+            <h4>box office: 1 046 000 000 $</h4>
+          </div>
+        </div>
+      </div>
+      <div class="third-section__img-left">
+        <img src="../assets/img/20.png" />
+      </div>
+      <div class="third-section__img-right">
+        <img src="../assets/img/PIR.png" />
+      </div>
       <SectionPageBG firstColor="#9D4444" secondColor="#A14848" />
     </section>
   </div>
@@ -368,14 +406,24 @@ export default {
   transform: translateY(0) !important;
 }
 
-.second-section__sub-section p .char {
-  transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+.second-section__sub-section p .char,
+.third-section__sub-section p .char {
+  transition: 0.7s cubic-bezier(0.65, 0, 0.35, 1);
   transition-delay: calc(20ms * var(--char-index));
   transform: scale(0);
 }
 
+// .second-section__sub-section .arrow img {
+//   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+//   transform: scale(0);
+// }
+// .second-section__sub-section.is-visible .arrow img {
+//   transform: scale(1);
+// }
+
 .first-section__sub-section.is-visible p .char,
-.second-section__sub-section.is-visible p .char {
+.second-section__sub-section.is-visible p .char,
+.third-section__sub-section.is-visible p .char {
   transform: scale(1) !important;
 }
 
@@ -443,7 +491,8 @@ export default {
       }
     }
   }
-  .second-section {
+  .second-section,
+  .third-section {
     margin-bottom: 10vh;
     &__sub-section {
       height: 100vh;
@@ -487,16 +536,32 @@ export default {
     }
     &__img-left {
       img {
-        bottom: -40vh;
+        bottom: -60vh;
         left: -7vh;
       }
     }
     &__img-right {
       img {
-        bottom: -50vh;
+        bottom: -80vh;
         right: -7vh;
       }
     }
+  }
+}
+
+.arrow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(35deg);
+  opacity: 0.1;
+  img {
+    height: 30%;
   }
 }
 
