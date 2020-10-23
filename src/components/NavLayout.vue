@@ -9,7 +9,7 @@
           cx="25"
           cy="25"
           r="20"
-          stroke="black"
+          stroke="white"
           stroke-width="1"
           fill="transparent"
         />
@@ -37,7 +37,13 @@
       </div>
       <div class="nav-layout__right-wrapper__indicator">
         <div class="first-number-wrapper">
-          <div class="first-number">1</div>
+          <div class="first-number">
+            <div class="number-wrapper">1</div>
+            <div class="number-wrapper">2</div>
+            <div class="number-wrapper">3</div>
+            <div class="number-wrapper">4</div>
+            <div class="number-wrapper">5</div>
+          </div>
         </div>
         <div class="line"></div>
         <div class="second-number-wrapper">
@@ -104,19 +110,29 @@ export default {
     &__indicator {
       display: flex;
       align-items: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+
+      padding-left: 20px;
       .line {
         width: 80px;
         height: 1px;
-        background-color: black;
+        background-color: white;
         padding: 10 10px;
         transform: scaleX(0);
+        transition: background-color 1s ease-in-out;
       }
       .first-number-wrapper {
         padding-right: 20px;
-        position: relative;
-        overflow: hidden;
+        top: 0;
+        left: 0;
+        position: absolute;
         .first-number {
           transform: translateY(50px);
+
+          .number-wrapper {
+          }
         }
       }
       .second-number-wrapper {

@@ -1,33 +1,33 @@
 <template>
   <div class="olywood">
-    <section class="first-section">
+    <section
+      v-observe-visibility="{
+        callback: visibilityChanged,
+        intersection: {
+          threshold: 0.4,
+        },
+      }"
+      class="first-section"
+    >
       <DataSections
         :firstTitle="dataSections[0].firstTitle"
         :secondTitle="dataSections[0].secondTitle"
       />
-      <div class="first-section__sub-section">
-        <div
-          v-observe-visibility="{
-            callback: visibilityChanged,
-            intersection: {
-              threshold: 0.4,
-            },
-          }"
-          class="first-section__sub-section__bolywood"
-        >
+      <div
+        v-observe-visibility="{
+          callback: visibilityChanged,
+          intersection: {
+            threshold: 0.4,
+          },
+        }"
+        class="first-section__sub-section"
+      >
+        <div class="first-section__sub-section__bolywood">
           <h3 data-splitting>Bolywood</h3>
           <p data-splitting>1600</p>
           <div class="first-section__sub-section__bolywood__comparaison"></div>
         </div>
-        <div
-          v-observe-visibility="{
-            callback: visibilityChanged,
-            intersection: {
-              threshold: 0.4,
-            },
-          }"
-          class="first-section__sub-section__holywood"
-        >
+        <div class="first-section__sub-section__holywood">
           <h3 data-splitting>Holywood</h3>
           <p data-splitting>500</p>
           <div class="first-section__sub-section__holywood__comparaison"></div>
@@ -47,6 +47,24 @@
         :firstTitle="dataSections[1].firstTitle"
         :secondTitle="dataSections[1].secondTitle"
       />
+      <div class="second-section__sub-section">
+        <div class="second-section__sub-section__left">
+          <h3 data-splitting>Bolywood</h3>
+          <p data-splitting>288 373 229 $</p>
+          <div class="h4-wrapper">
+            <h4>dangal</h4>
+            <h4>budget: 12 000 000$</h4>
+          </div>
+        </div>
+        <div class="second-section__sub-section__right">
+          <h3 data-splitting>Bolywood</h3>
+          <p data-splitting>2 797 800 564 $</p>
+          <div class="h4-wrapper">
+            <h4>avengers: endgame</h4>
+            <h4>budget: 356 000 000$</h4>
+          </div>
+        </div>
+      </div>
       <SectionPageBG firstColor="#448D9D" secondColor="#4890A1" />
     </section>
   </div>
@@ -115,12 +133,26 @@ export default {
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
     );
+
     const indicatorFirstNumber = document.querySelector(
       ".nav-layout__right-wrapper__indicator .first-number"
     );
     const indicatorSecondNumber = document.querySelector(
       ".nav-layout__right-wrapper__indicator .second-number"
     );
+
+    const layoutEl = document.querySelectorAll(".nav-layout a");
+    layoutEl.forEach((el) => {
+      el.style.color = "white";
+    });
+
+    const burgerMenu = document.querySelectorAll(
+      ".burger-menu__upper-line, .burger-menu__lower-line"
+    );
+
+    burgerMenu.forEach((el) => {
+      el.style.backgroundColor = "white";
+    });
 
     const pageBG = document.querySelector(".page-bg");
 
@@ -197,10 +229,22 @@ export default {
   },
   beforeDestroy() {
     this.olyAnimation.reverse();
+    const indicatorLine = document.querySelector(
+      ".nav-layout__right-wrapper__indicator .line"
+    );
 
-    // window.removeEventListener("mousewheel", (e) => {
-    //   this.scene.onMouseScroll(e);
-    // });
+    const burgerMenu = document.querySelectorAll(
+      ".burger-menu__upper-line, .burger-menu__lower-line"
+    );
+
+    const layoutEl = document.querySelectorAll(".nav-layout a");
+    layoutEl.forEach((el) => {
+      el.style.color = "black";
+    });
+
+    burgerMenu.forEach((el) => {
+      el.style.backgroundColor = "black";
+    });
   },
 };
 </script>
@@ -218,11 +262,11 @@ export default {
   transform: scale(0);
 }
 
-.is-visible h3 .char {
+.first-section__sub-section.is-visible h3 .char {
   transform: translateY(0) !important;
 }
 
-.is-visible p .char {
+.first-section__sub-section.is-visible p .char {
   transform: scale(1) !important;
 }
 
@@ -233,8 +277,10 @@ export default {
   transform-origin: left;
 }
 
-.is-visible .first-section__sub-section__bolywood__comparaison,
-.is-visible .first-section__sub-section__holywood__comparaison {
+.first-section__sub-section.is-visible
+  .first-section__sub-section__bolywood__comparaison,
+.first-section__sub-section.is-visible
+  .first-section__sub-section__holywood__comparaison {
   transition: 1s transform cubic-bezier(0.65, 0, 0.35, 1);
   transform: scaleX(1);
 }
@@ -248,6 +294,7 @@ export default {
 .olywood {
   position: absolute;
   top: 7vh;
+  pointer-events: none;
   left: 7vh;
   width: calc(100% - 14vh);
   .first-section {
@@ -260,18 +307,6 @@ export default {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        h3 {
-          font-size: 4rem;
-          -webkit-text-stroke: 1px #f69f55;
-          color: transparent;
-          margin: 0;
-        }
-        p {
-          margin: 0;
-          font-size: 8rem;
-          color: white;
-          font-weight: 900;
-        }
       }
       &__bolywood {
         &__comparaison {
@@ -290,6 +325,40 @@ export default {
       }
     }
   }
+  .second-section {
+    margin-top: 20vh;
+    &__sub-section {
+      height: 100vh;
+      display: flex;
+      position: relative;
+      z-index: 10;
+      &__left,
+      &__right {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        p {
+          margin: 0;
+          font-size: 6vw;
+          color: white;
+          font-weight: 900;
+        }
+        .h4-wrapper {
+          display: flex;
+          justify-content: space-around;
+          width: 100%;
+          margin-top: 2vh;
+          h4 {
+            margin: 0;
+            color: white;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
 }
 
 section .data-sections {
@@ -297,7 +366,16 @@ section .data-sections {
   z-index: 10;
 }
 
-.second-section {
-  margin-top: 20vh;
+h3 {
+  font-size: 6rem;
+  -webkit-text-stroke: 1px #f69f55;
+  color: transparent;
+  margin: 0;
+}
+p {
+  margin: 0;
+  font-size: 8rem;
+  color: white;
+  font-weight: 900;
 }
 </style>

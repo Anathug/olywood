@@ -1,13 +1,5 @@
 <template>
-  <div
-    class="data-sections"
-    v-observe-visibility="{
-      callback: visibilityChanged,
-      intersection: {
-        threshold: 0.4,
-      },
-    }"
-  >
+  <div class="data-sections">
     <div class="overflow-hidden">
       <h2 data-splitting>{{ firstTitle }}</h2>
     </div>
@@ -41,18 +33,19 @@ export default {
     });
   },
   methods: {
-    visibilityChanged(isVisible, entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("is-visible");
-        console.log("is visible");
-      } else {
-        entry.target.classList.remove("is-visible");
-      }
-    },
+    // visibilityChanged(isVisible, entry) {
+    //   if (entry.isIntersecting) {
+    //     entry.target.classList.add("is-visible");
+    //     console.log("is visible");
+    //   } else {
+    //     entry.target.classList.remove("is-visible");
+    //   }
+    // },
   },
 };
 </script>
 
+//
 <style lang="scss">
 .data-sections h2 .char {
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);

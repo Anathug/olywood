@@ -22,6 +22,7 @@ export default {
     height: 2px;
     width: 30px;
     background-color: black;
+    transition: background-color 1s ease-in-out;
   }
   &__lower-line {
     margin-top: 10px;
