@@ -66,7 +66,7 @@
       >
         <div class="second-section__sub-section__left">
           <h3>Bollywood</h3>
-          <p data-splitting>{{ numbers.second.price.bolywood }} $</p>
+          <p data-splitting>288 373 229 $</p>
           <div class="h4-wrapper">
             <h4>dangal</h4>
             <h4>budget: 12 000 000$</h4>
@@ -122,6 +122,7 @@
             <h4>2.0</h4>
             <h4>box-office: 108 628 480 $</h4>
           </div>
+          <div class="third-section__sub-section__left__comparaison"></div>
         </div>
         <!-- <div class="arrow">
           <img src="../assets/img/ARO.png" />
@@ -133,6 +134,7 @@
             <h4>PotC: On Stranger Tides</h4>
             <h4>box office: 1 046 000 000 $</h4>
           </div>
+          <div class="third-section__sub-section__right__comparaison"></div>
         </div>
       </div>
       <div class="third-section__img-left">
@@ -213,18 +215,6 @@ export default {
           secondTitle: "actors in 2020 ",
         },
       ],
-      numbers: {
-        second: {
-          price: {
-            bolywood: "288 373 229",
-            holywood: "2 797 800 564",
-          },
-          budget: {
-            bolywood: "12 000 000",
-            budget: "356 000 000",
-          },
-        },
-      },
     };
   },
 
@@ -247,6 +237,19 @@ export default {
           e,
           document.querySelectorAll(
             ".second-section__img-left img, .second-section__img-right img"
+          ),
+          1
+        );
+      }
+      if (
+        document
+          .querySelector(".third-section")
+          .classList.contains("is-visible")
+      ) {
+        this.pageScroll(
+          e,
+          document.querySelectorAll(
+            ".third-section__img-left img, .third-section__img-right img"
           ),
           1
         );
@@ -413,6 +416,20 @@ export default {
   transform: scale(0);
 }
 
+.third-section__sub-section__left__comparaison,
+.third-section__sub-section__right__comparaison {
+  transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+.third-section__sub-section.is-visible
+  .third-section__sub-section__left__comparaison,
+.third-section__sub-section.is-visible
+  .third-section__sub-section__right__comparaison {
+  transform: scaleY(1);
+}
+
 // .second-section__sub-section .arrow img {
 //   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
 //   transform: scale(0);
@@ -524,6 +541,20 @@ export default {
           }
         }
       }
+      &__left__comparaison {
+        height: 50px;
+        width: 120px;
+        background-color: white;
+        position: absolute;
+        bottom: -10vh;
+      }
+      &__right__comparaison {
+        height: 250px;
+        width: 120px;
+        background-color: white;
+        position: absolute;
+        bottom: -10vh;
+      }
     }
     &__img-left,
     &__img-right {
@@ -536,7 +567,7 @@ export default {
     }
     &__img-left {
       img {
-        bottom: -60vh;
+        bottom: -70vh;
         left: -7vh;
       }
     }
