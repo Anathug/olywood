@@ -12,6 +12,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$store);
     this.ressources.forEach((el) => {
       const image = document.createElement("img");
       image.src = holywoodImg;
@@ -22,6 +23,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .loader {
-  position: absolute;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: red;
+  z-index: 10000;
 }
 </style>

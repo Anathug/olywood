@@ -129,8 +129,8 @@ export default {
         left: 0;
         position: absolute;
         .first-number {
+          transition: transform cubic-bezier(0.65, 0, 0.35, 1) 1s;
           transform: translateY(50px);
-
           .number-wrapper {
           }
         }

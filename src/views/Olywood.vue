@@ -1,6 +1,7 @@
 <template>
   <div class="olywood">
     <section
+      ref="firstSection"
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
@@ -40,6 +41,7 @@
       <SectionPageBG firstColor="#bf6989" secondColor="#e280a4" />
     </section>
     <section
+      ref="secondSection"
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
@@ -73,6 +75,7 @@
       <SectionPageBG firstColor="#448D9D" secondColor="#4890A1" />
     </section>
     <section
+      ref="thirdSection"
       v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
@@ -106,8 +109,20 @@ export default {
   },
   methods: {
     visibilityChanged(isVisible, entry) {
+      const numbers = document.querySelector(".first-number");
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
+      } else {
+        entry.target.classList.remove("is-visible");
+      }
+      if (this.$refs.firstSection.classList.contains("is-visible")) {
+        numbers.style.transform = "translateY(0)";
+      }
+      if (this.$refs.secondSection.classList.contains("is-visible")) {
+        numbers.style.transform = "translateY(-19px)";
+      }
+      if (this.$refs.thirdSection.classList.contains("is-visible")) {
+        numbers.style.transform = "translateY(-40px)";
       }
     },
   },
@@ -165,7 +180,7 @@ export default {
     );
 
     const indicatorFirstNumber = document.querySelector(
-      ".nav-layout__right-wrapper__indicator .first-number"
+      ".nav-layout__right-wrapper__indicator .first-number-wrapper"
     );
     const indicatorSecondNumber = document.querySelector(
       ".nav-layout__right-wrapper__indicator .second-number"
@@ -246,6 +261,7 @@ export default {
     this.olyAnimation.play();
   },
   beforeDestroy() {
+    this.olyAnimation.reverse();
     const leavingPage = gsap.timeline({
       paused: true,
       defaults: {
@@ -269,7 +285,6 @@ export default {
       });
 
     leavingPage.play();
-    this.olyAnimation.reverse();
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
     );
@@ -339,9 +354,7 @@ export default {
 <style lang="scss" scoped>
 .olywood {
   position: absolute;
-  top: 7vh;
   pointer-events: none;
-  left: 7vh;
   width: calc(100% - 14vh);
   .first-section {
     &__sub-section {
@@ -372,7 +385,6 @@ export default {
     }
   }
   .second-section {
-    margin-top: 20vh;
     &__sub-section {
       height: 100vh;
       display: flex;
