@@ -168,9 +168,7 @@ export default {
       const numbers = document.querySelector(".first-number");
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-      } else {
-        entry.target.classList.remove("is-visible");
-      }
+      } 
       if (this.$refs.firstSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(0)";
       }
