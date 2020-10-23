@@ -1,5 +1,6 @@
 <template>
   <div class="olywood">
+    <div class="full-bg"></div>
     <section
       ref="firstSection"
       v-observe-visibility="{
@@ -352,6 +353,16 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+.full-bg {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: linear-gradient(#161920, #1c2029);
+  opacity: 0;
+  animation: full-bg-anim 0.1s 1s forwards;
+}
 .olywood {
   position: absolute;
   pointer-events: none;
@@ -435,5 +446,14 @@ p {
   font-size: 8rem;
   color: white;
   font-weight: 900;
+}
+
+@keyframes full-bg-anim {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
