@@ -158,7 +158,6 @@ class ThreeScene {
             mesh.material.uniforms.speed.value = this.targetSpeed
             mesh.material.uniforms.uTime.value += 0.01;
         })
-        console.log('render')
         this.getSpeed();
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);
