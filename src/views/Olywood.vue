@@ -73,6 +73,9 @@
           </div>
         </div>
       </div>
+      <div class="second-section__img-left">
+        <img src="../assets/img/bolywood.jpg" />
+      </div>
       <SectionPageBG firstColor="#448D9D" secondColor="#4890A1" />
     </section>
     <section
@@ -102,6 +105,7 @@ import gsap from "gsap";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
 import Splitting from "splitting";
+
 export default {
   name: "Olywood",
   components: {
@@ -125,6 +129,13 @@ export default {
       if (this.$refs.thirdSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(-40px)";
       }
+    },
+    pageScroll(e, el) {
+      gsap.to(el, {
+        y: "-=" + e.deltaY,
+        duration: 1,
+        ease: "power2.out",
+      });
     },
   },
   data() {
@@ -170,11 +181,25 @@ export default {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
     gsap.ticker.remove(this.scene.render);
-
     Splitting({
       target: "[data-splitting]",
       by: "chars",
     });
+
+    window.addEventListener("mousewheel", (e) => {
+      if (
+        document
+          .querySelector(".second-section")
+          .classList.contains("is-visible")
+      ) {
+        this.pageScroll(
+          e,
+          document.querySelector(".second-section__img-left img")
+        );
+      }
+    });
+
+    window.addEventListener("mousemove", (e) => {});
 
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
@@ -396,6 +421,7 @@ export default {
     }
   }
   .second-section {
+    margin-bottom: 10vh;
     &__sub-section {
       height: 100vh;
       display: flex;
@@ -425,6 +451,16 @@ export default {
             text-transform: uppercase;
           }
         }
+      }
+    }
+    &__img-left {
+      position: relative;
+      z-index: 9;
+      img {
+        width: 30%;
+        position: absolute;
+        bottom: 0;
+        left: -7vh;
       }
     }
   }

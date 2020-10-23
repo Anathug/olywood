@@ -195,6 +195,17 @@ export default {
     },
     enterExperience(homeAnimation) {
       homeAnimation.reverse();
+      gsap.to(this.firstMesh.material.uniforms.progress, {
+        value: 1,
+        duration: 1,
+        ease: "power4.inOut",
+      });
+      gsap.to(this.scene.camera.position, {
+        x: -3,
+        duration: 1,
+        delay: 0.3,
+        ease: "power4.inOut",
+      });
     },
   },
 };

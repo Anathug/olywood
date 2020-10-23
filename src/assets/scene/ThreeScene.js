@@ -30,6 +30,7 @@ class ThreeScene {
         this.init = this.init.bind(this);
         this.resizeCanvas = this.resizeCanvas.bind(this);
         this.createMesh = this.createMesh.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this)
         this.createParticles = this.createParticles.bind(this);
         this.onMouseScroll = this.onMouseScroll.bind(this);
         this.slideCameraRight = this.slideCameraRight.bind(this);
@@ -185,23 +186,24 @@ class ThreeScene {
         });
     }
     isMouseOver() {
-        var raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(this.mouse, this.camera);
+        // var raycaster = new THREE.Raycaster();
+        // raycaster.setFromCamera(this.mouse, this.camera);
 
-        var intersects = raycaster.intersectObjects(this.scene.children);
-        for (var i = 0; i < intersects.length; i++) {
-            gsap.to(intersects[0].object.material.uniforms.progress, {
-                value: 1,
-                duration: 1,
-                ease: "power4.inOut",
-            });
-            gsap.to(this.camera.position, {
-                x: -3,
-                duration: 1,
-                delay: .3,
-                ease: "power4.inOut",
-            });
-        }
+        // var intersects = raycaster.intersectObjects(this.scene.children);
+        // for (var i = 0; i < intersects.length; i++) {
+        //     console.log('test')
+        //     gsap.to(intersects[0].object.material.uniforms.progress, {
+        //         value: 1,
+        //         duration: 1,
+        //         ease: "power4.inOut",
+        //     });
+        //     gsap.to(this.camera.position, {
+        //         x: -3,
+        //         duration: 1,
+        //         delay: .3,
+        //         ease: "power4.inOut",
+        //     });
+        // }
     }
 }
 
