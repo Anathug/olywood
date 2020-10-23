@@ -103,8 +103,8 @@
       class="third-section"
     >
       <DataSections
-        :firstTitle="dataSections[1].firstTitle"
-        :secondTitle="dataSections[1].secondTitle"
+        :firstTitle="dataSections[2].firstTitle"
+        :secondTitle="dataSections[2].secondTitle"
       />
       <div
         v-observe-visibility="{
@@ -125,7 +125,7 @@
           <div class="third-section__sub-section__left__comparaison"></div>
         </div>
         <div class="third-section__sub-section__right">
-          <h3>Bollywood</h3>
+          <h3>Hollywood</h3>
           <p data-splitting>379 000 000 $</p>
           <div class="h4-wrapper">
             <h4>PotC: On Stranger Tides</h4>
@@ -279,7 +279,7 @@ export default {
         },
         {
           firstTitle: "Most expensive",
-          secondTitle: "films",
+          secondTitle: "movies",
         },
         {
           firstTitle: "Number of dead ",
