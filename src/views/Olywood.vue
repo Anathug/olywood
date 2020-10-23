@@ -142,14 +142,17 @@
       </div>
       <SectionPageBG firstColor="#9D4444" secondColor="#A14848" />
     </section>
-    <section   v-observe-visibility="{
+    <section
+      v-observe-visibility="{
         callback: visibilityChanged,
         intersection: {
           threshold: 0.2,
         },
-      }" ref="fifthSection"
-      class="fifth-section">
-        <DataSections
+      }"
+      ref="fifthSection"
+      class="fifth-section"
+    >
+      <DataSections
         :firstTitle="dataSections[4].firstTitle"
         :secondTitle="dataSections[4].secondTitle"
       />
@@ -178,7 +181,9 @@ export default {
       const numbers = document.querySelector(".first-number");
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-      } 
+      } else {
+        entry.target.classList.remove("is-visible");
+      }
       if (this.$refs.firstSection.classList.contains("is-visible")) {
         numbers.style.transform = "translateY(0)";
       }
@@ -195,7 +200,7 @@ export default {
     pageScroll(e, el, force) {
       el.forEach((element, i) => {
         gsap.to(element, {
-          y: "-=" + e.deltaY * force * (i+1),
+          y: "-=" + e.deltaY * force * (i + 0.5),
           duration: 1,
           ease: "power2.out",
         });
@@ -472,7 +477,7 @@ export default {
 .first-section.is-visible .page-bg,
 .second-section.is-visible .page-bg,
 .third-section.is-visible .page-bg,
-.fifth-section.is-visible .page-bg  {
+.fifth-section.is-visible .page-bg {
   transform: scaleY(1) !important;
 }
 </style>
@@ -557,14 +562,14 @@ export default {
       &__left__comparaison {
         height: 50px;
         width: 120px;
-        background-color: #F69F55;
+        background-color: #f69f55;
         position: absolute;
         bottom: -10vh;
       }
       &__right__comparaison {
         height: 250px;
         width: 120px;
-        background-color: #F69F55;
+        background-color: #f69f55;
         position: absolute;
         bottom: -10vh;
       }
@@ -586,10 +591,13 @@ export default {
     }
     &__img-right {
       img {
-        bottom: -80vh;
+        bottom: -150vh;
         right: -7vh;
       }
     }
+  }
+  .fifth-section {
+    margin-top: 30vh;
   }
 }
 
