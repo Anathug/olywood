@@ -55,7 +55,15 @@
         :firstTitle="dataSections[1].firstTitle"
         :secondTitle="dataSections[1].secondTitle"
       />
-      <div class="second-section__sub-section">
+      <div
+        v-observe-visibility="{
+          callback: visibilityChanged,
+          intersection: {
+            threshold: 0.4,
+          },
+        }"
+        class="second-section__sub-section"
+      >
         <div class="second-section__sub-section__left">
           <h3 data-splitting>Bolywood</h3>
           <p data-splitting>{{ numbers.second.price.bolywood }} $</p>
@@ -74,7 +82,10 @@
         </div>
       </div>
       <div class="second-section__img-left">
-        <img src="../assets/img/bolywood.jpg" />
+        <img src="../assets/img/DAN.png" />
+      </div>
+      <div class="second-section__img-right">
+        <img src="../assets/img/CAP.png" />
       </div>
       <SectionPageBG firstColor="#448D9D" secondColor="#4890A1" />
     </section>
@@ -130,11 +141,13 @@ export default {
         numbers.style.transform = "translateY(-40px)";
       }
     },
-    pageScroll(e, el) {
-      gsap.to(el, {
-        y: "-=" + e.deltaY,
-        duration: 1,
-        ease: "power2.out",
+    pageScroll(e, el, force) {
+      el.forEach((element) => {
+        gsap.to(element, {
+          y: "-=" + e.deltaY * force,
+          duration: 1,
+          ease: "power2.out",
+        });
       });
     },
   },
@@ -194,7 +207,10 @@ export default {
       ) {
         this.pageScroll(
           e,
-          document.querySelector(".second-section__img-left img")
+          document.querySelectorAll(
+            ".second-section__img-left img, .second-section__img-right img"
+          ),
+          1
         );
       }
     });
@@ -352,7 +368,14 @@ export default {
   transform: translateY(0) !important;
 }
 
-.first-section__sub-section.is-visible p .char {
+.second-section__sub-section p .char {
+  transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
+  transition-delay: calc(20ms * var(--char-index));
+  transform: scale(0);
+}
+
+.first-section__sub-section.is-visible p .char,
+.second-section__sub-section.is-visible p .char {
   transform: scale(1) !important;
 }
 
@@ -453,14 +476,25 @@ export default {
         }
       }
     }
-    &__img-left {
+    &__img-left,
+    &__img-right {
       position: relative;
       z-index: 9;
       img {
         width: 30%;
         position: absolute;
-        bottom: 0;
+      }
+    }
+    &__img-left {
+      img {
+        bottom: -40vh;
         left: -7vh;
+      }
+    }
+    &__img-right {
+      img {
+        bottom: -50vh;
+        right: -7vh;
       }
     }
   }

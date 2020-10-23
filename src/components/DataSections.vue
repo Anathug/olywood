@@ -19,28 +19,10 @@ export default {
     secondTitle: String,
   },
   mounted() {
-    // $in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
-    // $in-out-quint: cubic-bezier(0.83, 0, 0.17, 1);
-
-    // $out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
-    // $out-quint: cubic-bezier(0.22, 1, 0.36, 1);
-
-    // $in-cubic: cubic-bezier(0.32, 0, 0.67, 0);
-    // $in-quint: cubic-bezier(0.64, 0, 0.78, 0);
     Splitting({
       target: "[data-splitting]",
       by: "chars",
     });
-  },
-  methods: {
-    // visibilityChanged(isVisible, entry) {
-    //   if (entry.isIntersecting) {
-    //     entry.target.classList.add("is-visible");
-    //     console.log("is visible");
-    //   } else {
-    //     entry.target.classList.remove("is-visible");
-    //   }
-    // },
   },
 };
 </script>
