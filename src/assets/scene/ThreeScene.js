@@ -1,20 +1,11 @@
 import gsap from "gsap";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-global.THREE = require("three");
-const THREE = global.THREE;
-const createGeometry = require('three-bmfont-text')
-const loadFont = require('load-bmfont')
-
-// Font assets
-// const fontFile = require("../fonts/Lato-Black.fnt");
-// const fontAtlas = require("../fonts/Lato-Black.png");
-
+import * as THREE from 'three'
 
 const vertexShaderRaw = require("raw-loader!glslify-loader!./glsl/vertex.glsl");
 const fragmentShaderRaw = require("raw-loader!glslify-loader!./glsl/fragment.glsl");
 const vertexShader = vertexShaderRaw.default;
 const fragmentShader = fragmentShaderRaw.default;
-const MSDFShader = require('three-bmfont-text/shaders/msdf');
 class ThreeScene {
     constructor() {
         // BASIC SCENE
@@ -56,12 +47,6 @@ class ThreeScene {
         this.renderer.debug.checkShaderErrors = true;
         document.body.appendChild(this.renderer.domElement);
         this.scene = new THREE.Scene();
-        {
-            const color = 0xFFFFFF;  // white
-            const near = 1;
-            const far = 2;
-            this.scene.fog = new THREE.Fog(color, near, far);
-        }
         this.camera = new THREE.PerspectiveCamera(
             45,
             window.innerWidth / window.innerHeight,
@@ -72,7 +57,6 @@ class ThreeScene {
         this.camera.position.set(0, 0, 1);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-        gsap.ticker.add(this.render);
         window.addEventListener("resize", this.resizeCanvas);
         window.addEventListener("mousemove", (e) => {
             this.onMouseMove(e);
@@ -139,6 +123,7 @@ class ThreeScene {
             uniforms: {
                 uTime: { value: 0.0 },
                 progress: { value: 0 },
+                progress2: { value: 0 },
                 uRes: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
                 PR: { value: window.devicePixelRatio.toFixed(1) },
                 uTexture: { value: null },
@@ -173,23 +158,7 @@ class ThreeScene {
             mesh.material.uniforms.speed.value = this.targetSpeed
             mesh.material.uniforms.uTime.value += 0.01;
         })
-
-        if (this.olywood) {
-            this.scene.rotation.y += 0.0005;
-            var i = 1000;
-            console.log(this.particles)
-            // while (i--) {
-            //     var particle = this.particles.vertices[i];
-            //     if (particle.y > 1000) {
-            //         particle.y = -1000;
-            //         particle.velocity.y = Math.random();
-            //     }
-            //     particle.velocity.y += Math.random() * 0.001;
-
-            //     particle.add(particle.velocity);
-            //     this.points.geometry.verticesNeedUpdate = true;
-            // }
-        }
+        console.log('render')
         this.getSpeed();
         this.renderer.clear();
         this.renderer.render(this.scene, this.camera);

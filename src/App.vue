@@ -2,7 +2,7 @@
   <div id="app">
     <CustomCursor />
     <!-- <Loader /> -->
-    <PageBG />
+    <TransitionPage />
     <div class="app__wrapper">
       <NavLayout />
       <transition name="router-anim" mode="out-in">
@@ -16,7 +16,8 @@
 import NavLayout from "@/components/NavLayout.vue";
 import Loader from "@/components/Loader.vue";
 import CustomCursor from "@/components/CustomCursor.vue";
-import PageBG from "@/components/PageBG.vue";
+import TransitionPage from "@/components/TransitionPage.vue";
+import SmoothScroll from "@/assets/scene/SmoothScroll";
 
 export default {
   name: "App",
@@ -24,9 +25,11 @@ export default {
     NavLayout,
     CustomCursor,
     Loader,
-    PageBG,
+    TransitionPage,
   },
-  mounted() {},
+  mounted() {
+    new SmoothScroll(document, 60, 20);
+  },
 };
 </script>
 
@@ -56,6 +59,11 @@ h3 {
 
 .router-view {
   transition-duration: 1.5s;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+  position: relative;
 }
 
 canvas {

@@ -58,6 +58,8 @@ export default {
 
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
+    gsap.ticker.add(this.scene.render);
+
     this.firstMesh = this.scene.createMesh(0.15, hollyWoodImg);
     this.secondMesh = this.scene.createMesh(3.15, bollyWoodImg);
     this.firstMesh.name = "firstMesh";
@@ -68,19 +70,11 @@ export default {
 
     this.currentIndex = 0;
 
-    // gsap.fromTo(
-    //   this.firstMesh.material.uniforms.progress,
-    //   {
-    //     value: 100,
-    //     duration: 1,
-    //   },
-    //   {
-    //     value: 0,
-    //     duration: 3,
-    //     delay: 1,
-    //     ease: "power3.inOut",
-    //   }
-    // );
+    gsap.from(this.firstMesh.material.uniforms.progress2, {
+      value: 1,
+      duration: 2,
+      ease: "power4.inOut",
+    });
 
     // HOME ANIMATION
 
@@ -104,7 +98,7 @@ export default {
           alpha: 1,
           stagger: 0.05,
         },
-        0
+        0.3
       )
       .fromTo(
         holywoodButton,
@@ -118,7 +112,7 @@ export default {
           alpha: 1,
           stagger: 0.05,
         },
-        0
+        0.3
       )
       .fromTo(
         bolywoodButton,
@@ -132,7 +126,7 @@ export default {
           alpha: 1,
           stagger: 0.05,
         },
-        0.2
+        0.5
       )
       .fromTo(
         description,
@@ -146,7 +140,7 @@ export default {
           alpha: 1,
           skewY: 0,
         },
-        0.3
+        0.6
       );
 
     homeAnimation.play();

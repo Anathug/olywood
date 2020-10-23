@@ -5,6 +5,7 @@ varying vec4 vPosition;
 varying float vWave;
 uniform float uTime;
 uniform float progress;
+uniform float progress2;
 uniform vec2 uMouse;
 
 //
@@ -119,11 +120,12 @@ void main() {
 
   float stickTo = normalizedDistance;
 
-  float noiseFreq = 2.5;
+  float noiseFreq = 1.5;
   float noiseAmp = 0.05; 
-  vec3 noisePos = vec3(pos.x * noiseFreq + uTime  , pos.y  , pos.z);
+  vec3 noisePos = vec3(pos.x * noiseFreq + uTime , pos.y  , pos.z);
 
   pos.z += (snoise(noisePos) * noiseAmp +  - stickTo * progress);
+  pos.y -= progress2;
   vWave = pos.z;
   
   vUv = uv;

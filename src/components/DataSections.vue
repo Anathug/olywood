@@ -58,10 +58,6 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-.overflow-hidden {
-  overflow: hidden;
-  position: relative;
-}
 .data-sections {
   height: 86vh;
   margin-bottom: 7vh;

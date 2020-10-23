@@ -23,16 +23,21 @@
         class="first-section__sub-section"
       >
         <div class="first-section__sub-section__bolywood">
-          <h3 data-splitting>Bolywood</h3>
+          <div class="overflow-hidden">
+            <h3 data-splitting>Bolywood</h3>
+          </div>
           <p data-splitting>1600</p>
           <div class="first-section__sub-section__bolywood__comparaison"></div>
         </div>
         <div class="first-section__sub-section__holywood">
-          <h3 data-splitting>Holywood</h3>
+          <div class="overflow-hidden">
+            <h3 data-splitting>Holywood</h3>
+          </div>
           <p data-splitting>500</p>
           <div class="first-section__sub-section__holywood__comparaison"></div>
         </div>
       </div>
+      <SectionPageBG firstColor="#bf6989" secondColor="#e280a4" />
     </section>
     <section
       v-observe-visibility="{
@@ -50,7 +55,7 @@
       <div class="second-section__sub-section">
         <div class="second-section__sub-section__left">
           <h3 data-splitting>Bolywood</h3>
-          <p data-splitting>288 373 229 $</p>
+          <p data-splitting>{{ numbers.second.price.bolywood }} $</p>
           <div class="h4-wrapper">
             <h4>dangal</h4>
             <h4>budget: 12 000 000$</h4>
@@ -67,6 +72,21 @@
       </div>
       <SectionPageBG firstColor="#448D9D" secondColor="#4890A1" />
     </section>
+    <section
+      v-observe-visibility="{
+        callback: visibilityChanged,
+        intersection: {
+          threshold: 0.4,
+        },
+      }"
+      class="third-section"
+    >
+      <DataSections
+        :firstTitle="dataSections[1].firstTitle"
+        :secondTitle="dataSections[1].secondTitle"
+      />
+      <SectionPageBG firstColor="#9D4444" secondColor="#A14848" />
+    </section>
   </div>
 </template>
 
@@ -75,7 +95,6 @@ import Bridge from "@/assets/scene/Bridge";
 import DataSections from "@/components/DataSections.vue";
 import SectionPageBG from "@/components/SectionPageBG.vue";
 import gsap from "gsap";
-import SmoothScroll from "@/assets/scene/SmoothScroll";
 import "splitting/dist/splitting.css";
 import "splitting/dist/splitting-cells.css";
 import Splitting from "splitting";
@@ -89,8 +108,6 @@ export default {
     visibilityChanged(isVisible, entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add("is-visible");
-      } else {
-        entry.target.classList.remove("is-visible");
       }
     },
   },
@@ -118,12 +135,25 @@ export default {
           secondTitle: "actors in 2020 ",
         },
       ],
+      numbers: {
+        second: {
+          price: {
+            bolywood: "288 373 229",
+            holywood: "2 797 800 564",
+          },
+          budget: {
+            bolywood: "12 000 000",
+            budget: "356 000 000",
+          },
+        },
+      },
     };
   },
+
   mounted() {
     this.bridge = new Bridge();
     this.scene = this.bridge.getSingleton();
-    new SmoothScroll(document, 60, 20);
+    gsap.ticker.remove(this.scene.render);
 
     Splitting({
       target: "[data-splitting]",
@@ -154,8 +184,6 @@ export default {
       el.style.backgroundColor = "white";
     });
 
-    const pageBG = document.querySelector(".page-bg");
-
     const circle = document.querySelector(".nav-layout__left-wrapper circle");
 
     const olyThreeTL = gsap.timeline({
@@ -174,16 +202,6 @@ export default {
       },
     });
     this.olyAnimation = olyTL
-      .fromTo(
-        pageBG,
-        {
-          scaleY: 0,
-        },
-        {
-          scaleY: 1,
-        },
-        0
-      )
       .fromTo(
         circle,
         {
@@ -228,6 +246,29 @@ export default {
     this.olyAnimation.play();
   },
   beforeDestroy() {
+    const leavingPage = gsap.timeline({
+      paused: true,
+      defaults: {
+        duration: 1,
+        ease: "power3.inOut",
+      },
+    });
+
+    leavingPage
+      .to(document.querySelector(".transition-page"), {
+        scaleX: 1,
+        duration: 1,
+        ease: "power4.inOut",
+        transformOrigin: "right",
+      })
+      .to(document.querySelector(".transition-page"), {
+        scaleX: 0,
+        duration: 1,
+        ease: "power4.inOut",
+        transformOrigin: "left",
+      });
+
+    leavingPage.play();
     this.olyAnimation.reverse();
     const indicatorLine = document.querySelector(
       ".nav-layout__right-wrapper__indicator .line"
@@ -250,6 +291,10 @@ export default {
 </script>
 
 <style lang="scss">
+.router-anim-leave-to.olywood {
+  opacity: 0;
+  transition: 0.1s 0.8s;
+}
 .first-section__sub-section h3 .char {
   transition: 1s cubic-bezier(0.65, 0, 0.35, 1);
   transition-delay: calc(20ms * var(--char-index));
@@ -284,8 +329,9 @@ export default {
   transition: 1s transform cubic-bezier(0.65, 0, 0.35, 1);
   transform: scaleX(1);
 }
-
-.second-section.is-visible .page-bg {
+.first-section.is-visible .page-bg,
+.second-section.is-visible .page-bg,
+.third-section.is-visible .page-bg {
   transform: scaleY(1) !important;
 }
 </style>
@@ -298,9 +344,9 @@ export default {
   left: 7vh;
   width: calc(100% - 14vh);
   .first-section {
-    z-index: 50;
-    position: relative;
     &__sub-section {
+      z-index: 50;
+      position: relative;
       &__bolywood,
       &__holywood {
         display: flex;
@@ -311,7 +357,7 @@ export default {
       &__bolywood {
         &__comparaison {
           height: 5px;
-          width: 1600px;
+          width: 80%;
           background-color: white;
           margin: 5vh;
         }
@@ -319,7 +365,7 @@ export default {
       &__holywood {
         &__comparaison {
           height: 5px;
-          width: 500px;
+          width: 50%;
           background-color: white;
         }
       }
